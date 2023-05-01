@@ -108,6 +108,7 @@ class PlgSystemJoompush extends JPlugin
 					$global_vars .= 'var project_id = "' . $configs['project_id']->value . '"; ';
 					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->value . '"; ';
 					$global_vars .= 'var appId = "' . $configs['app_id']->value . '"; ';
+					$global_vars .= 'var vapidKey = "' . $configs['vapidKey']->value . '"; ';
 					$global_vars .= 'var fbsw_url = "' . JURI::root() . 'firebase-messaging-sw.js' . '"; ';
 					$global_vars .= 'var sw_url = "' . JURI::root() . 'joompush-sw.js' . '"; ';
 					$global_vars .= 'var baseurl = "' . JURI::root() . '"; ';
