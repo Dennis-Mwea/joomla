@@ -178,7 +178,8 @@ class PlgSystemJoompush extends JPlugin
 						$document->addScriptDeclaration($global_vars);
 						$document->addStyleSheet(Juri::root() . 'plugins/system/joompush/asset/css/joompush.css');
 
-						JHtml::script('https://www.gstatic.com/firebasejs/4.4.0/firebase.js');
+						JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
+						JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 						JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
 
 						$manifest = JPATH_SITE . '/plugins/system/joompush/asset/manifest.json';
@@ -195,7 +196,8 @@ class PlgSystemJoompush extends JPlugin
 							$document->addScriptDeclaration($global_vars);
 							$document->addStyleSheet(Juri::root() . 'plugins/system/joompush/asset/css/joompush.css');
 
-							JHtml::script('https://www.gstatic.com/firebasejs/4.4.0/firebase.js');
+							JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
+							JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 							JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
 
 							$manifest = JPATH_SITE . '/plugins/system/joompush/asset/manifest.json';
