@@ -28,6 +28,10 @@ class PlgSystemJoompush extends JPlugin
 		$this->loadLanguage();
 	}
 
+	/**
+	 * @since today
+	 * @throws Exception
+	 */
 	function onBeforeCompileHead()
 	{
 		$app = JFactory::getApplication();
@@ -96,13 +100,14 @@ class PlgSystemJoompush extends JPlugin
 				$JoompushHelpersConfig = new JoompushHelpersConfig;
 				$configs = $JoompushHelpersConfig->getConfig();
 
-				if (isset($configs['api_key']) && isset($configs['server_key']) && isset($configs['project_id']) && isset($configs['sender_id']))
+				if (isset($configs['api_key'], $configs['server_key'], $configs['project_id'], $configs['sender_id'], $configs['app_id']))
 				{
 					$global_vars = '';
-					$global_vars .= 'var apiKey = "' . $configs['api_key']->params . '"; ';
-					$global_vars .= 'var serverKey = "' . $configs['server_key']->params . '"; ';
-					$global_vars .= 'var project_id = "' . $configs['project_id']->params . '"; ';
-					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->params . '"; ';
+					$global_vars .= 'var apiKey = "' . $configs['api_key']->value . '"; ';
+					$global_vars .= 'var serverKey = "' . $configs['server_key']->value . '"; ';
+					$global_vars .= 'var project_id = "' . $configs['project_id']->value . '"; ';
+					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->value . '"; ';
+					$global_vars .= 'var appId = "' . $configs['app_id']->value . '"; ';
 					$global_vars .= 'var fbsw_url = "' . JURI::root() . 'firebase-messaging-sw.js' . '"; ';
 					$global_vars .= 'var sw_url = "' . JURI::root() . 'joompush-sw.js' . '"; ';
 					$global_vars .= 'var baseurl = "' . JURI::root() . '"; ';
