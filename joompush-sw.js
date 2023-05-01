@@ -13,25 +13,3 @@ self.addEventListener("push",function(i){
 			  i.waitUntil(clients.openWindow(n))});
 
 			  self.importScripts("/wkpwa_sw.js");
-
-// initialize the firebase app
-// firebase.initializeApp({
-// 	projectId: 'sanify24push',
-// 	messagingSenderId: '885960002000',
-// 	apiKey: 'AIzaSyAqVMdWT7qV5R4c4bBnT631iBGmpYYVwCQ',
-// 	appId: '1:885960002000:web:c35de44adf094256fb51d5',
-// })
-
-// // Retrieve firebase messaging
-// const messaging = firebase.messaging()
-
-// messaging.onBackgroundMessage(function (payload) {
-// 	console.log("Received background message", payload);
-
-// 	const notificationTitle = payload.notification.title;
-// 	const notificationOptions = {
-// 		body: payload.notification.body
-// 	};
-
-// 	self.registration.showNotification(notificationTitle, notificationOptions)
-// })
