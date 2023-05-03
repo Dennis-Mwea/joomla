@@ -199,33 +199,33 @@
             window.Notification.requestPermission().then(permission => {
                 console.log('Notifications permission:', permission)
                 if (permission === 'granted') {
-                    //     navigator.serviceWorker.ready.then(registration => {
-                    //         registration.pushManager.subscribe({
-                    //             userVisibleOnly: true,
-                    //             applicationServerKey: this._urlBase64ToUint8Array(vapidPublicKey)
-                    //         }).then(subscription => {
-                    //             // The subscription was successful
-                    //             this._changePushButtonState('enabled');
-                    //
-                    //             // on a la subscription, il faut l'enregistrer en BDD
-                    //             return this._pushSendSubscriptionToServer(subscription, 'create');
-                    //         }).catch(error => {
-                    //             if (Notification.permission === 'denied') {
-                    //                 // The user denied the notification permission which
-                    //                 // means we failed to subscribe and the user will need
-                    //                 // to manually change the notification permission to
-                    //                 // subscribe to push messages
-                    //                 console.warn('[SW] Notifications are not allowed by the user.');
-                    //                 this._changePushButtonState('incompatible');
-                    //             } else {
-                    //                 // A problem occurred with the subscription; common reasons
-                    //                 // include network errors, and lacking gcm_sender_id and/or
-                    //                 // gcm_user_visible_only in the manifest.
-                    //                 console.error('[SW] Unable to subscribe to notifications.', e);
-                    //                 this._changePushButtonState('disabled');
-                    //             }
-                    //         })
-                    //     })
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: this._urlBase64ToUint8Array(vapidPublicKey)
+                        }).then(subscription => {
+                            // The subscription was successful
+                            this._changePushButtonState('enabled');
+
+                            // on a la subscription, il faut l'enregistrer en BDD
+                            return this._pushSendSubscriptionToServer(subscription, 'create');
+                        }).catch(error => {
+                            if (Notification.permission === 'denied') {
+                                // The user denied the notification permission which
+                                // means we failed to subscribe and the user will need
+                                // to manually change the notification permission to
+                                // subscribe to push messages
+                                console.warn('[SW] Notifications are not allowed by the user.');
+                                this._changePushButtonState('incompatible');
+                            } else {
+                                // A problem occurred with the subscription; common reasons
+                                // include network errors, and lacking gcm_sender_id and/or
+                                // gcm_user_visible_only in the manifest.
+                                console.error('[SW] Unable to subscribe to notifications.', e);
+                                this._changePushButtonState('disabled');
+                            }
+                        })
+                    })
                 } else {
                     // The subscription was successful
                     this._changePushButtonState('disabled');
