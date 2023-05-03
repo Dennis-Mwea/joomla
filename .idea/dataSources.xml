@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="joomla3@localhost" uuid="cfe2bc12-a4cb-4c10-a9f0-22f6f36dc3c4">
+    <data-source source="LOCAL" name="joomla@localhost" uuid="a60efdce-8d2d-4c49-865d-97b1e126d7d0">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/joomla3</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/joomla</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

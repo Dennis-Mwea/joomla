@@ -3,6 +3,7 @@
     <option name="OTHER_INDENT_OPTIONS">
       <value>
         <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
       </value>
     </option>
     <PHPCodeStyleSettings>
@@ -19,6 +20,13 @@
       <option name="VARIABLE_NAMING_STYLE" value="CAMEL_CASE" />
       <option name="BLANK_LINES_BEFORE_RETURN_STATEMENT" value="1" />
     </PHPCodeStyleSettings>
+    <codeStyleSettings language="JSON">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="4" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
     <codeStyleSettings language="PHP">
       <option name="BRACE_STYLE" value="2" />
       <option name="ELSE_ON_NEW_LINE" value="true" />
