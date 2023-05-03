@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
     const messaging = firebase.messaging();
 
     if (getCookie('jpManual') == 0) {
-        jpInit();
+        // jpInit();
     }
 
     function jpInit() {

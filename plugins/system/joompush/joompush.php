@@ -103,18 +103,13 @@ class PlgSystemJoompush extends JPlugin
 				if (isset($configs['api_key'], $configs['server_key'], $configs['project_id'], $configs['sender_id'], $configs['app_id']))
 				{
 					$global_vars = '';
-//					$global_vars .= 'var apiKey = "' . $configs['api_key']->params . '"; ';
-//					$global_vars .= 'var serverKey = "' . $configs['server_key']->params . '"; ';
-//					$global_vars .= 'var project_id = "' . $configs['project_id']->params . '"; ';
-//					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->params . '"; ';
-//					$global_vars .= 'var appId = "' . $configs['app_id']->params . '"; ';
-//					$global_vars .= 'var vapidKey = "' . $configs['vapidKey']->params . '"; ';
-					$global_vars .= 'var apiKey = "AIzaSyALVnO2FERCMaNevkpi_YBtolLqdBWYfL0"; ';
-					$global_vars .= 'var serverKey = "AAAAqfrXf_k:APA91bGFKnEgVV7_iDQOwxSZpsPJS0R3lqAUKYd1Rh5lq3UpSgebIdk_24j-OAeiKz0SyyBZYrK2A_6S31DIgwlPAatvZO5oegQDvbQfnPFc2kXWIb7FcpSaGwErs8uQ9xpLDOxIAQ1Q"; ';
-					$global_vars .= 'var project_id = "flutter-dfaad"; ';
-					$global_vars .= 'var messagingSenderId = "730057900025"; ';
-					$global_vars .= 'var appId = "1:730057900025:android:22db70ec12a1ca39d54728"; ';
-					$global_vars .= 'var vapidKey = "BGbcfu88T6uDHgXvJfGjBYXCMEIpltB-ZFkeUTxo6KKZd9ctco2SOzp0Lo9NPKvj08qbG1Y9pyoeM30tpuf8HMU"; ';
+					$global_vars .= 'var apiKey = "' . $configs['api_key']->value . '"; ';
+					$global_vars .= 'var serverKey = "' . $configs['server_key']->value . '"; ';
+					$global_vars .= 'var project_id = "' . $configs['project_id']->value . '"; ';
+					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->value . '"; ';
+					$global_vars .= 'var appId = "' . $configs['app_id']->value . '"; ';
+					$global_vars .= 'var vapidKey = "' . $configs['vapidKey']->value . '"; ';
+					$global_vars .= 'var webPushPublicKey = "' . $configs['web_push_public_key']->value . '"; ';
 					$global_vars .= 'var fbsw_url = "' . JURI::root() . 'firebase-messaging-sw.js' . '"; ';
 					$global_vars .= 'var sw_url = "' . JURI::root() . 'joompush-sw.js' . '"; ';
 					$global_vars .= 'var baseurl = "' . JURI::root() . '"; ';
