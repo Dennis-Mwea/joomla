@@ -31,16 +31,16 @@ class WebPushController extends JControllerLegacy
 			$state    = $jInput->getString('state');
 			$endpoint = $jInput->getString('endpoint');
 
-			match ($state)
-			{
-				'delete' => $this->deleteSubscription($endpoint),
-				'create' => $this->createSubscription($user, $endpoint),
-				'update' => $this->updateSubscription($user, $endpoint),
-			};
+//			match ($state)
+//			{
+//				'delete' => $this->deleteSubscription($endpoint),
+//				'create' => $this->createSubscription($user, $endpoint),
+//				'update' => $this->updateSubscription($user, $endpoint),
+//			};
 
 			echo json_encode([
 				'success' => true,
-//				'results' => $this->sendTestMessages($user),
+				'results' => $this->sendTestMessages($user),
 			]);
 		}
 
