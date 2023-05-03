@@ -87,6 +87,8 @@ JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
+JFactory::getDocument()->addScript(JUri::root(). 'index.js');
+
 // Adjusting content width
 $position7ModuleCount = $this->countModules('position-7');
 $position8ModuleCount = $this->countModules('position-8');
@@ -126,6 +128,7 @@ else
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<?php include_once __DIR__ . "/../../media/pwa/meta.php" ?>
 	<jdoc:include type="head" />
 </head>
 <body class="site <?php echo $option
@@ -186,6 +189,9 @@ else
 					<jdoc:include type="component" />
 					<div class="clearfix"></div>
 					<jdoc:include type="modules" name="position-2" style="none" />
+					<div class="">
+						<button class="btn btn-primary notification-toggler">Subscribe</button>
+					</div>
 					<!-- End Content -->
 				</main>
 				<?php if ($position7ModuleCount) : ?>
