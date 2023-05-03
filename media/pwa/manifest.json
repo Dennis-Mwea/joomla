@@ -1,0 +1,101 @@
+{
+	"scope": "/",
+	"orientation": "any",
+	"name": "Notification",
+	"status_bar": "black",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"icons": [
+		{
+			"src": "/media/pwa/icons/icon-72x72.png",
+			"type": "image/png",
+			"sizes": "72x72",
+			"purpose": "any"
+		},
+		{
+			"src": "/media/pwa/icons/icon-96x96.png",
+			"type": "image/png",
+			"sizes": "96x96",
+			"purpose": "any"
+		},
+		{
+			"src": "/media/pwa/icons/icon-128x128.png",
+			"type": "image/png",
+			"sizes": "128x128",
+			"purpose": "any"
+		},
+		{
+			"src": "/media/pwa/icons/icon-144x144.png",
+			"type": "image/png",
+			"sizes": "144x144",
+			"purpose": "any"
+		},
+		{
+			"src": "/media/pwa/icons/icon-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192",
+			"purpose": "maskable"
+		},
+		{
+			"src": "/media/pwa/icons/icon-384x384.png",
+			"type": "image/png",
+			"sizes": "384x384",
+			"purpose": "any"
+		},
+		{
+			"src": "/media/pwa/icons/icon-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		}
+	],
+	"start_url": "/",
+	"short_name": "Notification",
+	"background_color": "#ffffff",
+	"shortcuts": [
+		{
+			"name": "Home",
+			"url": "/",
+			"description": "Home",
+			"icons": [
+				{
+					"src": "/media/pwa/icons/icon-512x512.png",
+					"type": "image/png",
+					"purpose": "any"
+				}
+			]
+		}
+	],
+	"splash": {
+		"640x1136": "/media/pwa/splash/splash-640x1136.png",
+		"750x1334": "/media/pwa/splash/splash-750x1334.png",
+		"828x1792": "/media/pwa/splash/splash-828x1792.png",
+		"1125x2436": "/media/pwa/splash/splash-1125x2436.png",
+		"1242x2208": "/media/pwa/splash/splash-1242x2208.png",
+		"1242x2688": "/media/pwa/splash/splash-1242x2688.png",
+		"1536x2048": "/media/pwa/splash/splash-1536x2048.png",
+		"1668x2224": "/media/pwa/splash/splash-1668x2224.png",
+		"1668x2388": "/media/pwa/splash/splash-1668x2388.png",
+		"2048x2732": "/media/pwa/splash/splash-2048x2732.png"
+	},
+	"schema": "https://json.schemastore.org/web-manifest-combined.json",
+	"description": "Deliver with Dropexpress, Faster than you can imagine, For less than you'll believe.",
+	"related_applications": [
+		{
+			"platform": "play",
+			"url": "https://play.google.com/store/apps/details?id=ax.synt.dropexpress_driver_app_v2"
+		},
+		{
+			"platform": "play",
+			"url": "https://play.google.com/store/apps/details?id=ax.synt.dropexpress_client_app_v2"
+		},
+		{
+			"platform": "itunes",
+			"url": "https://apps.apple.com/us/app/dropexpress-driver/id1623568368"
+		},
+		{
+			"platform": "itunes",
+			"url": "https://apps.apple.com/us/app/dropexpress/id1603971541"
+		}
+	]
+}
