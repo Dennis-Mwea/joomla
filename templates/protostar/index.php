@@ -87,8 +87,6 @@ JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
-JFactory::getDocument()->addScript(JUri::root(). 'index.js');
-
 // Adjusting content width
 $position7ModuleCount = $this->countModules('position-7');
 $position8ModuleCount = $this->countModules('position-8');
