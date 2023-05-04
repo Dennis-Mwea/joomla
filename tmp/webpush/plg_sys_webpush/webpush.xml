@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.1" group="system">
+    <name>Web Push</name>
+    <!-- The following elements are optional and free of formatting constraints -->
+    <creationDate>May 2023</creationDate>
+    <author>Dennis Mwea</author>
+    <authorEmail>mweadennis2@gmail.com</authorEmail>
+    <authorUrl>https://github.com/Dennis-Mwea</authorUrl>
+    <copyright>Copyright Info</copyright>
+    <license>License Info</license>
+    <!--  The version string is recorded in the components table -->
+    <version>0.0.1</version>
+    <!-- The description is optional and defaults to the name -->
+    <description>Joomla webpush component plugin...</description>
+
+
+    <update> <!-- Runs on update; New since J2.5 -->
+        <!--		<schemas>-->
+        <!--			<schemapath type="mysql">sql/updates/mysql</schemapath>-->
+        <!--		</schemas>-->
+    </update>
+
+    <files folder="plugin">
+        <filename plugin="webpush">webpush.php</filename>
+        <folder plugin="webpush">assets</folder>
+    </files>
+</extension>
