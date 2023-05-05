@@ -13,8 +13,10 @@
                     })
                 }
 
-                document.querySelector('.test-notification')
-                    .addEventListener('click', this._sendTestNotification.bind(this));
+                const testBtn = document.querySelector('.test-notification')
+                if (testBtn) {
+                    testBtn.addEventListener('click', this._sendTestNotification.bind(this));
+                }
 
                 // register the service worker
                 if (('serviceWorker' in navigator)) {
