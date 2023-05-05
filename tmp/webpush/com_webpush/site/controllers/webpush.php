@@ -25,12 +25,14 @@ class WebpushController extends JControllerLegacy
 		$state    = $app->input->getString('state');
 		$endpoint = $app->input->getString('endpoint');
 
-		$subscription           = match ($state)
-		{
-			'delete' => $model->delete($endpoint),
-			'create' => $model->create($user, $endpoint, $token, $key),
-			'update' => $model->update($user, $endpoint, $token, $key),
-		};
+		if ($state == 'delete') {
+			$subscription =  $model->delete($endpoint);
+		} else if ($state == 'create') {
+			$subscription = $model->create($user, $endpoint, $token, $key);
+		} else {
+			$subscription = $model->update($user, $endpoint, $token, $key);
+		}
+		
 		$response               = new stdClass();
 		$response->success      = true;
 		$response->subscription = $subscription;
