@@ -9,6 +9,9 @@ require_once JPATH_COMPONENT . '/models/subscription.php';
 
 class WebpushController extends JControllerLegacy
 {
+	/**
+	 * @throws Exception
+	 */
 	public function getSubscribers(): void
 	{
 		$user              = JFactory::getUser();
@@ -17,7 +20,7 @@ class WebpushController extends JControllerLegacy
 		$response->users   = (new SubscriptionModel)->getSubscribers($user);
 
 		echo json_encode($response);
-		jexit();
+		JFactory::getApplication()->close();
 	}
 
 	/**
@@ -47,5 +50,10 @@ class WebpushController extends JControllerLegacy
 
 		echo json_encode($response);
 		$app->close();
+	}
+
+	public function sendMessages()
+	{
+
 	}
 }

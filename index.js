@@ -150,7 +150,7 @@
             const token = subscription.getKey('auth');
             form.append('key', btoa(String.fromCharCode.apply(null, new Uint8Array(key))))
             form.append('token', btoa(String.fromCharCode.apply(null, new Uint8Array(token))))
-            fetch(`/index.php?option=com_helloworld&task=getUsers`, {
+            fetch(`/index.php?option=com_webpush&task=getUsers`, {
                 method: 'POST',
                 body: form,
             }).then((resp) => resp.json()).then(console.log).catch(console.error)

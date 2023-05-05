@@ -82,4 +82,16 @@ class SubscriptionModel extends JModelLegacy
 
 		return $this->find($endpoint);
 	}
+
+	public function getSubscribers(JUser $user): array
+	{
+		$db      = JFactory::getDbo();
+		$query   = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__web_subscriptions'))
+			->where($db->quoteName('subscribable_id') . ' = ' . $db->quote($user->id))
+			->where($db->quoteName('subscribable_type') . ' = ' . $db->quote(get_class($user)));
+
+		return $db->setQuery($query)->loadObjectList();
+	}
 }
