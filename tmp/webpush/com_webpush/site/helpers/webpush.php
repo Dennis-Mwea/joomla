@@ -12,7 +12,7 @@ abstract class WebPushHelper
 	/**
 	 * @throws ErrorException
 	 */
-	public static function sendMessages(string $title, ?string $message, array $payload): array
+	public static function sendMessages(string $title, ?string $message = null, array $payload = null): array
 	{
 		$user          = JFactory::getUser();
 		$subscriptions = (new SubscriptionModel)->getSubscribers($user);
@@ -20,11 +20,10 @@ abstract class WebPushHelper
 
 		foreach ($subscriptions as $subscription)
 		{
-			$payload = $payload ?? [];
-			$payload['msg'] = $message;
 			$webPush->queueNotification(self::createSubscription($subscription), json_encode([
 				'title'   => $title,
-				'message' => $payload,
+				'body'    => $message,
+				'payload' => $payload,
 				'icon'    => '/approved-icon.png',
 			]));
 		}
@@ -65,7 +64,7 @@ abstract class WebPushHelper
 		]);
 	}
 
-	protected static function checkForResponse(array $reports): array
+	protected static function checkForResponse(Generator $reports): array
 	{
 		$messages = [];
 		foreach ($reports as $report)

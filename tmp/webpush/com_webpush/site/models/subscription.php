@@ -88,7 +88,7 @@ class SubscriptionModel extends JModelLegacy
 		$db      = JFactory::getDbo();
 		$query   = $db->getQuery(true)
 			->select('*')
-			->from($db->quoteName('#__web_subscriptions'))
+			->from($db->quoteName('#__webpush_subscribers'))
 			->where($db->quoteName('subscribable_id') . ' = ' . $db->quote($user->id))
 			->where($db->quoteName('subscribable_type') . ' = ' . $db->quote(get_class($user)));
 
