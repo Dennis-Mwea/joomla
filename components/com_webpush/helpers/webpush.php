@@ -12,12 +12,9 @@ abstract class WebPushHelper
 	/**
 	 * @throws ErrorException
 	 */
-	public static function sendMessages(string $title, ?string $message = null, array $payload = null): array
+	public static function sendMessages(array $subscriptions, string $title, ?string $message = null, array $payload = null): array
 	{
-		$user          = JFactory::getUser();
-		$subscriptions = (new SubscriptionModel)->getSubscribers($user);
 		$webPush       = self::getWebPush();
-
 		foreach ($subscriptions as $subscription)
 		{
 			$webPush->queueNotification(self::createSubscription($subscription), json_encode([

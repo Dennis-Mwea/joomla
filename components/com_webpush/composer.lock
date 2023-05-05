@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94f5df8e2e687b0d992d9f4f373a9241",
+    "content-hash": "91fd3fde6cd806400c94ea6c8d450758",
     "packages": [
         {
             "name": "brick/math",
@@ -50,10 +50,6 @@
                 "brick",
                 "math"
             ],
-            "support": {
-                "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.9.3"
-            },
             "funding": [
                 {
                     "url": "https://github.com/BenMorel",
@@ -135,10 +131,6 @@
                 "x509",
                 "x690"
             ],
-            "support": {
-                "issues": "https://github.com/fgrosse/PHPASN1/issues",
-                "source": "https://github.com/fgrosse/PHPASN1/tree/v2.5.0"
-            },
             "abandoned": true,
             "time": "2022-12-19T11:08:26+00:00"
         },
@@ -250,10 +242,6 @@
                 "rest",
                 "web service"
             ],
-            "support": {
-                "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.5.1"
-            },
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -334,10 +322,6 @@
             "keywords": [
                 "promise"
             ],
-            "support": {
-                "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.5.2"
-            },
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -450,10 +434,6 @@
                 "uri",
                 "url"
             ],
-            "support": {
-                "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.5.0"
-            },
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -472,16 +452,16 @@
         },
         {
             "name": "minishlink/web-push",
-            "version": "v8.0.0",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-push-libs/web-push-php.git",
-                "reference": "ec034f1e287cd1e74235e349bd017d71a61e9d8d"
+                "reference": "8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/ec034f1e287cd1e74235e349bd017d71a61e9d8d",
-                "reference": "ec034f1e287cd1e74235e349bd017d71a61e9d8d",
+                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340",
+                "reference": "8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340",
                 "shasum": ""
             },
             "require": {
@@ -490,7 +470,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "guzzlehttp/guzzle": "^7.0.1|^6.2",
-                "php": ">=8.0",
+                "php": ">=7.3",
                 "spomky-labs/base64url": "^2.0",
                 "web-token/jwt-key-mgmt": "^2.0|^3.0.2",
                 "web-token/jwt-signature": "^2.0|^3.0.2",
@@ -498,12 +478,9 @@
                 "web-token/jwt-util-ecc": "^2.0|^3.0.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^v3.13.2",
-                "phpstan/phpstan": "^1.9.8",
-                "phpunit/phpunit": "^9.5.27"
-            },
-            "suggest": {
-                "ext-gmp": "Optional for performance."
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "phpstan/phpstan": "^0.11|^0.12",
+                "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
             "autoload": {
@@ -531,11 +508,7 @@
                 "push",
                 "web"
             ],
-            "support": {
-                "issues": "https://github.com/web-push-libs/web-push-php/issues",
-                "source": "https://github.com/web-push-libs/web-push-php/tree/v8.0.0"
-            },
-            "time": "2023-01-10T17:14:44+00:00"
+            "time": "2022-03-29T13:54:20+00:00"
         },
         {
             "name": "psr/http-client",
@@ -584,9 +557,6 @@
                 "psr",
                 "psr-18"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-client/tree/1.0.2"
-            },
             "time": "2023-04-10T20:12:12+00:00"
         },
         {
@@ -639,9 +609,6 @@
                 "request",
                 "response"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
-            },
             "time": "2023-04-10T20:10:41+00:00"
         },
         {
@@ -692,9 +659,6 @@
                 "request",
                 "response"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/http-message/tree/2.0"
-            },
             "time": "2023-04-04T09:54:51+00:00"
         },
         {
@@ -735,10 +699,6 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "support": {
-                "issues": "https://github.com/ralouphie/getallheaders/issues",
-                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
-            },
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
@@ -790,10 +750,6 @@
                 "safe",
                 "url"
             ],
-            "support": {
-                "issues": "https://github.com/Spomky-Labs/base64url/issues",
-                "source": "https://github.com/Spomky-Labs/base64url/tree/v2.0.4"
-            },
             "funding": [
                 {
                     "url": "https://github.com/Spomky",
@@ -808,25 +764,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.0.2",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c"
+                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
+                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.0-dev"
+                    "dev-main": "2.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -854,9 +810,6 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.2"
-            },
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -871,7 +824,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2022-01-02T09:53:40+00:00"
         },
         {
             "name": "web-token/jwt-core",
@@ -938,9 +891,6 @@
                 "jwt",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/web-token/jwt-core/tree/v2.2.11"
-            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/FlorentMorselli",
@@ -1015,9 +965,6 @@
                 "jwt",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/web-token/jwt-key-mgmt/tree/v2.2.11"
-            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/FlorentMorselli",
@@ -1091,9 +1038,6 @@
                 "jwt",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/web-token/jwt-signature/tree/v2.2.11"
-            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/FlorentMorselli",
@@ -1160,9 +1104,6 @@
                 "jwt",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/web-token/jwt-signature-algorithm-ecdsa/tree/v2.2.11"
-            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/FlorentMorselli",
@@ -1232,9 +1173,6 @@
                 "jwt",
                 "symfony"
             ],
-            "support": {
-                "source": "https://github.com/web-token/jwt-util-ecc/tree/v2.2.11"
-            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/FlorentMorselli",
@@ -1252,5 +1190,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "1.1.0"
 }

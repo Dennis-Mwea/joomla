@@ -45,14 +45,16 @@ class WebpushController extends JControllerLegacy
 	 */
 	public function sendMessages(): void
 	{
-		$app     = JFactory::getApplication();
-		$title   = $app->input->getString('title');
-		$message = $app->input->getString('message');
-		$payload = $app->input->get('payload');
+		$user          = JFactory::getUser();
+		$app           = JFactory::getApplication();
+		$title         = $app->input->getString('title');
+		$message       = $app->input->getString('message');
+		$payload       = $app->input->get('payload');
+		$subscriptions = (new SubscriptionModel)->getSubscribers($user);
 
-		$response               = new stdClass();
-		$response->success      = true;
-		$response->data = WebPushHelper::sendMessages($title, $message, $payload);
+		$response          = new stdClass();
+		$response->success = true;
+		$response->data    = WebPushHelper::sendMessages($subscriptions, $title, $message, $payload);
 
 		echo json_encode($response);
 		$app->close();

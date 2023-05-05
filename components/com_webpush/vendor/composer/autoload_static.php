@@ -51,8 +51,8 @@ class ComposerStaticInit7ba410ec2b818ba1c4cf46a96fab3227
     public static $prefixDirsPsr4 = array (
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -108,16 +108,11 @@ class ComposerStaticInit7ba410ec2b818ba1c4cf46a96fab3227
         ),
     );
 
-    public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit7ba410ec2b818ba1c4cf46a96fab3227::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit7ba410ec2b818ba1c4cf46a96fab3227::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7ba410ec2b818ba1c4cf46a96fab3227::$classMap;
 
         }, null, ClassLoader::class);
     }
