@@ -35,7 +35,6 @@
         },
 
         serviceWorkerInstalled(event) {
-            console.log('Installed')
             self.skipWaiting()
             event.waitUntil(caches.open(staticCacheName).then(cache => cache.addAll(this._filesToCache)))
         },
@@ -71,7 +70,6 @@
             }
 
             if (event.data) {
-                console.log('Notification received', event.data.json())
                 event.waitUntil(
                     this.sendNotification(event.data.json())
                 )
@@ -86,8 +84,6 @@
          * @param {NotificationEvent} event
          */
         notificationClick(event) {
-            console.log('Clicked', event)
-
             if (event.action === 'some_action') {
                 // Do something...
             } else {
@@ -129,7 +125,6 @@
          * @return {Response}
          */
         dismissNotification({notification}, {endpoint}) {
-            console.log('Dismissed')
             if (!notification.data || !notification.data.id) {
                 return;
             }
