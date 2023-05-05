@@ -187,8 +187,10 @@ else
 					<jdoc:include type="component" />
 					<div class="clearfix"></div>
 					<jdoc:include type="modules" name="position-2" style="none" />
-					<div class="">
+					<div class="d-flex">
 						<button class="btn btn-primary notification-toggler">Subscribe</button>
+
+						<button class="btn btn-primary test-notification">Send Test Notification</button>
 					</div>
 					<!-- End Content -->
 				</main>

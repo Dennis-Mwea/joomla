@@ -65,14 +65,13 @@
          * @param {NotificationEvent} event
          */
         notificationPush(event) {
-            console.log(self.Notification, self.Notification.permission)
             if (!(self.Notification && self.Notification.permission === 'granted')) {
                 // Notifications are not supported or permission is denied
                 return;
             }
 
             if (event.data) {
-                console.log('Notification received', event.data)
+                console.log('Notification received', event.data.json())
                 event.waitUntil(
                     this.sendNotification(event.data.json())
                 )
