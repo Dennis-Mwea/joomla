@@ -1,17 +1,23 @@
 <?php
 
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- *
- * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+defined('_JEXEC') or die('Restricted access');
 
-defined('_JEXEC') or die;
-JHtml::_('behavior.tabstate');
+// Set some global property
+JFactory::getDocument()
+	->addStyleDeclaration('.icon-webpush {background-image: url(../media/com_webpush/images/notifications.png)}');
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_webpush'))
+// Access check: is this user allowed to access the backend of this component?
+if (!JFactory::getUser()->authorise('core.manage', 'cm_webpush'))
 {
-	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 }
+
+// Require helper file
+JLoader::register('WebPushHelper', JPATH_COMPONENT . '/helpers/webpush.php');
+
+// Get instance of the controller prefixed by WebPush
+// Perform the Request task
+// Redirect if set by the controller
+$controller = JControllerLegacy::getInstance('WebPush');
+$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller->redirect();

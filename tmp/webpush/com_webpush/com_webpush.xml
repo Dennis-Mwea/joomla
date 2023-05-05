@@ -44,7 +44,9 @@
 
     <administration>
         <!-- Administration Menu Section -->
-        <menu link='index.php?option=com_webpush' img="../media/com_webpush/images/notifications.png">COM_HELLOWORLD_MENU</menu>
+        <menu link='index.php?option=com_webpush' img="../media/com_webpush/images/notifications.png">
+            COM_WEBPUSH_MENU
+        </menu>
         <!-- Administration Main File Copy Section -->
         <!-- Note the folder attribute: This attribute describes the folder
             to copy FROM in the package to install therefore files copied
@@ -69,6 +71,7 @@
             <!-- helpers files section -->
             <folder>helpers</folder>
         </files>
+
         <languages folder="admin/language">
             <language tag="en-GB">en-GB/en-GB.com_webpush.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_webpush.sys.ini</language>

@@ -1,50 +1,55 @@
 <?php
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_helloworld
- *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-// No direct access
+
 defined('_JEXEC') or die('Restricted access');
 
-/**
- * Hello Table class
- *
- * @since  0.0.1
- */
-class HelloWorldTableHelloWorld extends JTable
+class WebPushTableWebPush extends JTable
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
-	 */
-	function __construct(&$db)
+	public function __construct($db)
 	{
-		parent::__construct('#__helloworld', 'id', $db);
+		parent::__construct('#__webpush_configs', 'id', $db);
 	}
 
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array           named array
-	 *
-	 * @return      null|string     null is operation was satisfactory, otherwise returns an error
-	 * @see   JTable:bind
-	 * @since 1.5
-	 */
-	public function bind($array, $ignore = '')
+	public function bind($src, $ignore = array()): bool
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		// Bind the rules.
+		if (isset($array['rules']) && is_array($array['rules']))
 		{
-			// Convert the params field to a string.
-			$parameter = new JRegistry;
-			$parameter->loadArray($array['params']);
-			$array['params'] = (string) $parameter;
+			$rules = new JAccessRules($array['rules']);
+			$this->setRules($rules);
 		}
 
-		return parent::bind($array, $ignore);
+		return parent::bind($src, $ignore);
+	}
+
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+
+		return 'com_webpush.message.' . (int) $this->$k;
+	}
+
+	protected function _getAssetTitle()
+	{
+		return $this->name;
+	}
+
+	protected function _getAssetParentId(JTable $table = null, $id = null)
+	{
+		// We will retrieve the parent-asset from the Asset-table
+		$assetParent = JTable::getInstance('Asset');
+		// Default: if no asset-parent can be found we take the global asset
+		$assetParentId = $assetParent->getRootId();
+
+		// Find the parent-asset
+		// The item has the component as asset-parent
+		$assetParent->loadByName('com_webpush');
+
+		// Return the found asset-parent-id
+		if ($assetParent->id)
+		{
+			$assetParentId = $assetParent->id;
+		}
+
+		return $assetParentId;
 	}
 }
