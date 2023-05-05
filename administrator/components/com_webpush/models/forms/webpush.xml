@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_webpush/models/rules">
+    <fieldset name="details" label="COM_WEBPUSH_WEBPUSH_DETAILS">
+        <field name="id" type="hidden"/>
+
+        <field name="name"
+               type="text"
+               label="COM_WEBPUSH_WEBPUSH_NAME_LABEL"
+               description="COM_WEBPUSH_WEBPUSH_NAME_DESC"
+               size="40"
+               class="inputbox validate-name"
+               validate="name"
+               required="true"
+               default=""/>
+
+        <field name="value"
+               type="text"
+               label="COM_WEBPUSH_WEBPUSH_VALUE_LABEL"
+               description="COM_WEBPUSH_WEBPUSH_VALUE_DESC"
+               size="40"
+               class="inputbox validate-value"
+               validate="value"
+               required="true"
+               default=""/>
+    </fieldset>
+
+    <fieldset name="accesscontrol" label="COM_WEBPUSH_FIELDSET_RULES">
+        <field name="asset_id" type="hidden" filter="unset"/>
+
+        <field name="rules"
+               type="rules"
+               label="COM_WEBPUSH_FIELD_RULES_LABEL"
+               filter="rules"
+               validate="rules"
+               class="inputbox"
+               component="com_helloworld"
+               section="message"/>
+    </fieldset>
+</form>
