@@ -64,7 +64,7 @@ abstract class WebPushHelper
 		]);
 	}
 
-	protected static function checkForResponse(array $reports): array
+	protected static function checkForResponse(Generator $reports): array
 	{
 		$messages = [];
 		foreach ($reports as $report)
