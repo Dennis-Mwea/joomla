@@ -13,6 +13,9 @@
                     })
                 }
 
+                document.querySelector('.test-notification')
+                    .addEventListener('click', this._sendTestNotification.bind(this));
+
                 // register the service worker
                 if (('serviceWorker' in navigator)) {
                     navigator.serviceWorker.register('/webpush-sw.js', {scope: "./"}).then(() => {
@@ -259,6 +262,16 @@
                 })
             })
         },
+
+        _sendTestNotification(event) {
+            const form = new FormData()
+            form.append('title', 'Test Notification')
+            form.append('message', 'This is a test notification to my devices')
+            fetch(`/index.php?option=com_webpush&task=sendMessages`, {
+                body: form,
+                method: 'POST',
+            }).then((resp) => resp.json()).then(console.log).catch(console.error)
+        }
     }
 
     EnablePushNotifications.init()
