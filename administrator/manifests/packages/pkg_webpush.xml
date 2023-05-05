@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6" method="upgrade">
+    <name>Web Push Package</name>
+
+    <author>Web Push Package Team</author>
+
+    <creationDate>May 2012</creationDate>
+
+    <packagename>webpush</packagename>
+
+    <version>1.0.0</version>
+
+    <url>https://github.com/Dennis-Mwea/</url>
+
+    <packager>Web Push Package Team</packager>
+
+    <packagerurl>https://github.com/Dennis-Mwea/</packagerurl>
+
+    <description>Example package to combine multiple extensions</description>
+
+    <update>https://www.updateurl.com/update</update>
+
+    <files folder="packages">
+        <file type="component" id="com_webpush">com_webpush.zip</file>
+        <file type="plugin" id="webpush" group="system">plg_sys_webpush.zip</file>
+    </files>
+</extension>
