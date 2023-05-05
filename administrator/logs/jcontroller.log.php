@@ -50,3 +50,4 @@
 2023-05-05T12:28:51+00:00	INFO 192.168.64.1	controller	Releasing edit ID com_webpush.edit.webpush.6 Array (     [0] => 2 ) 
 2023-05-05T21:58:53+00:00	INFO 105.163.1.96	controller	Holding edit ID com_webpush.edit.webpush.2 Array (     [0] => 2 ) 
 2023-05-05T21:59:04+00:00	INFO 105.163.1.96	controller	Releasing edit ID com_webpush.edit.webpush.2 Array ( ) 
+2023-05-05T21:59:08+00:00	INFO 105.163.1.96	controller	Holding edit ID com_webpush.edit.webpush.1 Array (     [0] => 1 ) 
