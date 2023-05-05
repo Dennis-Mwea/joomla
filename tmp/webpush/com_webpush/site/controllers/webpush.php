@@ -6,23 +6,10 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_COMPONENT . '/models/webpush.php';
 require_once JPATH_COMPONENT . '/models/subscription.php';
+require_once JPATH_COMPONENT . '/helpers/webpush.php';
 
 class WebpushController extends JControllerLegacy
 {
-	/**
-	 * @throws Exception
-	 */
-	public function getSubscribers(): void
-	{
-		$user              = JFactory::getUser();
-		$response          = new stdClass();
-		$response->success = true;
-		$response->users   = (new SubscriptionModel)->getSubscribers($user);
-
-		echo json_encode($response);
-		JFactory::getApplication()->close();
-	}
-
 	/**
 	 * @return void
 	 * @throws Exception
@@ -52,8 +39,36 @@ class WebpushController extends JControllerLegacy
 		$app->close();
 	}
 
-	public function sendMessages()
+	/**
+	 * @throws ErrorException
+	 * @throws Exception
+	 */
+	public function sendMessages(): void
 	{
+		$app     = JFactory::getApplication();
+		$title   = $app->input->getString('title');
+		$message = $app->input->getString('message');
+		$payload = $app->input->get('payload');
 
+		$response               = new stdClass();
+		$response->success      = true;
+		$response->data = WebPushHelper::sendMessages($title, $message, $payload);
+
+		echo json_encode($response);
+		$app->close();
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function getSubscribers(): void
+	{
+		$user              = JFactory::getUser();
+		$response          = new stdClass();
+		$response->success = true;
+		$response->users   = (new SubscriptionModel)->getSubscribers($user);
+
+		echo json_encode($response);
+		JFactory::getApplication()->close();
 	}
 }

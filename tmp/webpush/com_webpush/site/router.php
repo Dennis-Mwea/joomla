@@ -9,13 +9,15 @@ function webPushBuildRoute(&$query): array
 	{
 		unset($query['option']);
 		unset($query['task']);
-		if ($query['task'] == 'getUsers')
-		{
-			$segments[] = 'getUsers';
-		}
-		else if ($query['task'] == 'subscribe')
+		if ($query['task'] == 'subscribe')
 		{
 			$segments[] = 'subscribe';
+		} else if ($query['task'] == 'sendMessages')
+		{
+			$segments[] = 'sendMessages';
+		} else if ($query['task'] == 'getSubscribers')
+		{
+			$segments[] = 'getSubscribers';
 		}
 	}
 
@@ -24,17 +26,19 @@ function webPushBuildRoute(&$query): array
 
 function webPushParseRoute($segments): array
 {
-	$vars = array();
+	$vars = [];
 	if (count($segments) == 1)
 	{
 		$vars['option'] = 'com_webpush';
-		if ($segments[0] == 'getUsers')
-		{
-			$vars['task'] = 'getUsers';
-		}
-		else if ($segments[0] == 'subscribe')
+		if ($segments[0] == 'subscribe')
 		{
 			$vars['task'] = 'subscribe';
+		} else if ($segments[0] == 'sendMessages')
+		{
+			$vars['task'] = 'sendMessages';
+		} else if ($segments[0] == 'getSubscribers')
+		{
+			$vars['task'] = 'getSubscribers';
 		}
 	}
 
