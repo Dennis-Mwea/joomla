@@ -17,14 +17,11 @@ class JConfig {
 	public $user = 'root';
 	public $password = 'My mum and I1.';
 	public $db = 'joomla';
-//	public $user = 'sanify';
-//	public $password = 'ayqtcbfenii0eirzirsd';
-//	public $db = 'sanify';
 	public $dbprefix = 'jum_';
 	public $live_site = '';
 	public $secret = '86MgeoAenqe54yPn';
-	public $gzip = '0';
-	public $error_reporting = 'development';
+	public $gzip = '1';
+	public $error_reporting = 'maximum';
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $ftp_host = '';
 	public $ftp_port = '';
@@ -60,8 +57,6 @@ class JConfig {
 	public $unicodeslugs = '0';
 	public $feed_limit = '10';
 	public $feed_email = 'none';
-//	public $log_path = '/home/forge/sanify.synt.ax/administrator/logs';
-//	public $tmp_path = '/home/forge/sanify.synt.ax/tmp';
 	public $log_path = '/home/dennis/code/joomla3/administrator/logs';
 	public $tmp_path = '/home/dennis/code/joomla3/tmp';
 	public $lifetime = '15';
