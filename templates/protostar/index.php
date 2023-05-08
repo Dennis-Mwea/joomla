@@ -126,7 +126,7 @@ else
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<?php include_once __DIR__ . "/../../media/pwa/meta.php" ?>
+	<?php include_once __DIR__ . "/../../media/com_webpush/pwa/meta.php" ?>
 	<jdoc:include type="head" />
 </head>
 <body class="site <?php echo $option

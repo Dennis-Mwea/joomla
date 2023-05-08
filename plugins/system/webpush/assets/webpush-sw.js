@@ -5,24 +5,24 @@
 
     const WebPush = {
         _filesToCache: [
-            '/media/pwa/icons/icon-72x72.png',
-            '/media/pwa/icons/icon-96x96.png',
-            '/media/pwa/icons/icon-128x128.png',
-            '/media/pwa/icons/icon-144x144.png',
-            '/media/pwa/icons/icon-152x152.png',
-            '/media/pwa/icons/icon-192x192.png',
-            '/media/pwa/icons/icon-384x384.png',
-            '/media/pwa/icons/icon-512x512.png',
-            '/media/pwa/splash/splash-640x1136.png',
-            '/media/pwa/splash/splash-750x1334.png',
-            '/media/pwa/splash/splash-1242x2208.png',
-            '/media/pwa/splash/splash-1125x2436.png',
-            '/media/pwa/splash/splash-828x1792.png',
-            '/media/pwa/splash/splash-1242x2688.png',
-            '/media/pwa/splash/splash-1536x2048.png',
-            '/media/pwa/splash/splash-1668x2224.png',
-            '/media/pwa/splash/splash-1668x2388.png',
-            '/media/pwa/splash/splash-2048x2732.png'
+            '/media/com_webpush/pwa/icons/icon-72x72.png',
+            '/media/com_webpush/pwa/icons/icon-96x96.png',
+            '/media/com_webpush/pwa/icons/icon-128x128.png',
+            '/media/com_webpush/pwa/icons/icon-144x144.png',
+            '/media/com_webpush/pwa/icons/icon-152x152.png',
+            '/media/com_webpush/pwa/icons/icon-192x192.png',
+            '/media/com_webpush/pwa/icons/icon-384x384.png',
+            '/media/com_webpush/pwa/icons/icon-512x512.png',
+            '/media/com_webpush/pwa/splash/splash-640x1136.png',
+            '/media/com_webpush/pwa/splash/splash-750x1334.png',
+            '/media/com_webpush/pwa/splash/splash-1242x2208.png',
+            '/media/com_webpush/pwa/splash/splash-1125x2436.png',
+            '/media/com_webpush/pwa/splash/splash-828x1792.png',
+            '/media/com_webpush/pwa/splash/splash-1242x2688.png',
+            '/media/com_webpush/pwa/splash/splash-1536x2048.png',
+            '/media/com_webpush/pwa/splash/splash-1668x2224.png',
+            '/media/com_webpush/pwa/splash/splash-1668x2388.png',
+            '/media/com_webpush/pwa/splash/splash-2048x2732.png'
         ],
 
         init() {
