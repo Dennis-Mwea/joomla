@@ -21,11 +21,11 @@
 
                 // register the service worker
                 if (('serviceWorker' in navigator)) {
-                    navigator.serviceWorker.register('/webpush-sw.js', {scope: "./"}).then(() => {
+                    navigator.serviceWorker.register('/webpush-sw.js', {scope: "./"}).then(function () {
                         console.log('[SW] Registered service worker')
                         _this._pushInitialiseState();
                         _this._initPostMessageListener();
-                    }, (e) => {
+                    }, function (e) {
                         console.error('[SW] Oups...', e);
                         _this._changePushButtonState('incompatible');
                     })
