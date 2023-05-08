@@ -15,7 +15,7 @@ jimport('joomla.application.component.model');
 
 class WebPushModel extends JModelLegacy
 {
-	private JDatabaseDriver $db;
+	private $db;
 
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
