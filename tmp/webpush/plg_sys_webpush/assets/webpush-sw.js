@@ -1,9 +1,9 @@
 (function () {
     'use strict'
 
-    let staticCacheName = `pwa-v${new Date().getTime()}`
+    var staticCacheName = `pwa-v${new Date().getTime()}`
 
-    const WebPush = {
+    var WebPush = {
         _filesToCache: [
             '/media/com_webpush/pwa/icons/icon-72x72.png',
             '/media/com_webpush/pwa/icons/icon-96x96.png',
@@ -34,25 +34,34 @@
             self.addEventListener('notificationclose', this.notificationClose.bind(this))
         },
 
-        serviceWorkerInstalled(event) {
-            self.skipWaiting()
-            event.waitUntil(caches.open(staticCacheName).then(cache => cache.addAll(this._filesToCache)))
+        serviceWorkerInstalled: function (event) {
+            console.log('Installed');
+            self.skipWaiting();
+            var _this = this;
+            event.waitUntil(caches.open(staticCacheName).then(function (cache) {
+                cache.addAll(_this._filesToCache).then();
+            }));
         },
 
-        serviceWorkerActivated(event) {
+        serviceWorkerActivated: function (event) {
             event.waitUntil(
-                caches.keys().then(cacheNames => Promise.all(cacheNames
-                    .filter(cacheName => (cacheName.startsWith('pwa')))
-                    .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))))
-            )
+                caches.keys().then(function (cacheNames) {
+                    Promise.all(cacheNames
+                        .filter(cacheName => (cacheName.startsWith('pwa')))
+                        .filter(cacheName => (cacheName !== staticCacheName))
+                        .map(cacheName => caches.delete(cacheName)))
+                        .then();
+                })
+            );
         },
 
-        serviceWorkerFetching(event) {
+        serviceWorkerFetching: function (event) {
             event.respondWith(
-                caches.match(event.requests)
-                    .then(response => response || fetch(event.request))
-                    .catch(() => caches.match('offline'))
+                caches.match(event.requests).then(function (response) {
+                    return response || fetch(event.request);
+                }).catch(function () {
+                    return caches.match('offline');
+                })
             )
         },
 
@@ -63,16 +72,16 @@
          *
          * @param {NotificationEvent} event
          */
-        notificationPush(event) {
+        notificationPush: function (event) {
+            console.log(self.Notification, self.Notification.permission)
             if (!(self.Notification && self.Notification.permission === 'granted')) {
                 // Notifications are not supported or permission is denied
                 return;
             }
 
             if (event.data) {
-                event.waitUntil(
-                    this.sendNotification(event.data.json())
-                )
+                console.log('Notification received', event.data)
+                event.waitUntil(this.sendNotification(event.data.json()));
             }
         },
 
@@ -83,7 +92,9 @@
          *
          * @param {NotificationEvent} event
          */
-        notificationClick(event) {
+        notificationClick: function (event) {
+            console.log('Clicked', event)
+
             if (event.action === 'some_action') {
                 // Do something...
             } else {
@@ -98,10 +109,11 @@
          *
          * @param {NotificationEvent} event
          */
-        notificationClose(event) {
-            self.registration.pushManager.getSubscription().then(subscription => {
+        notificationClose: function (event) {
+            var _this = this
+            self.registration.pushManager.getSubscription().then(function (subscription) {
                 if (subscription) {
-                    this.dismissNotification(event, subscription)
+                    _this.dismissNotification(event, subscription)
                 }
             })
         },
@@ -113,7 +125,7 @@
          *
          * @param {PushMessageData|Object} data
          */
-        sendNotification(data,) {
+        sendNotification: function (data) {
             return self.registration.showNotification(data.title, data)
         },
 
@@ -124,7 +136,8 @@
          * @param  {String} subscription.endpoint
          * @return {Response}
          */
-        dismissNotification({notification}, {endpoint}) {
+        dismissNotification: function ({notification}, {endpoint}) {
+            console.log('Dismissed')
             if (!notification.data || !notification.data.id) {
                 return;
             }
