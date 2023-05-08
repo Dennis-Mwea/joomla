@@ -47,6 +47,7 @@
     <media destination="com_webpush" folder="media">
         <filename>index.html</filename>
         <folder>images</folder>
+        <folder>pwa</folder>
     </media>
 
     <administration>
