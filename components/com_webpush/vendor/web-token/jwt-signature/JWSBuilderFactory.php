@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,16 +14,26 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Jose\Component\Core\Converter\JsonConverter;
 
 class JWSBuilderFactory
 {
+    /**
+     * @var JsonConverter|null
+     */
+    private $jsonConverter;
+
     /**
      * @var AlgorithmManagerFactory
      */
     private $signatureAlgorithmManagerFactory;
 
-    public function __construct(AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
+    /**
+     * JWSBuilderFactory constructor.
+     */
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
+        $this->jsonConverter = $jsonConverter;
         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;
     }
 
@@ -36,6 +46,6 @@ class JWSBuilderFactory
     {
         $algorithmManager = $this->signatureAlgorithmManagerFactory->create($algorithms);
 
-        return new JWSBuilder($algorithmManager);
+        return new JWSBuilder($this->jsonConverter, $algorithmManager);
     }
 }

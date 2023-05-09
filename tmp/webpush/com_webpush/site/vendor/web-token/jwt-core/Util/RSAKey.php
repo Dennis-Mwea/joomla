@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,19 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function array_key_exists;
 use Base64Url\Base64Url;
-use function count;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\NullObject;
 use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
-use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\JWK;
-use RuntimeException;
 
 /**
  * @internal
@@ -40,12 +35,12 @@ class RSAKey
     /**
      * @var bool
      */
-    private $private;
+    private $private = false;
 
     /**
      * @var array
      */
-    private $values;
+    private $values = [];
 
     /**
      * @var BigInteger
@@ -63,9 +58,9 @@ class RSAKey
     private $public_exponent;
 
     /**
-     * @var null|BigInteger
+     * @var BigInteger|null
      */
-    private $private_exponent;
+    private $private_exponent = null;
 
     /**
      * @var BigInteger[]
@@ -78,15 +73,15 @@ class RSAKey
     private $exponents = [];
 
     /**
-     * @var null|BigInteger
+     * @var BigInteger|null
      */
-    private $coefficient;
+    private $coefficient = null;
 
     private function __construct(JWK $data)
     {
-        $this->values = $data->all();
+        $this->loadJWK($data->all());
         $this->populateBigIntegers();
-        $this->private = array_key_exists('d', $this->values);
+        $this->private = \array_key_exists('d', $this->values);
     }
 
     /**
@@ -150,7 +145,7 @@ class RSAKey
 
     public function isPublic(): bool
     {
-        return !array_key_exists('d', $this->values);
+        return !\array_key_exists('d', $this->values);
     }
 
     /**
@@ -163,7 +158,7 @@ class RSAKey
         $data = $private->toArray();
         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
         foreach ($keys as $key) {
-            if (array_key_exists($key, $data)) {
+            if (\array_key_exists($key, $data)) {
                 unset($data[$key]);
             }
         }
@@ -176,68 +171,33 @@ class RSAKey
         return $this->values;
     }
 
-    public function toPEM(): string
+    private function loadJWK(array $jwk)
     {
-        if (null === $this->sequence) {
-            $this->sequence = new Sequence();
-            if (array_key_exists('d', $this->values)) {
-                $this->initPrivateKey();
-            } else {
-                $this->initPublicKey();
-            }
+        if (!\array_key_exists('kty', $jwk)) {
+            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
         }
-        $result = '-----BEGIN '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
-        $result .= chunk_split(base64_encode($this->sequence->getBinary()), 64, PHP_EOL);
-        $result .= '-----END '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
+        if ('RSA' !== $jwk['kty']) {
+            throw new \InvalidArgumentException('The JWK is not a RSA key.');
+        }
 
-        return $result;
+        $this->values = $jwk;
     }
 
-    /**
-     * Exponentiate with or without Chinese Remainder Theorem.
-     * Operation with primes 'p' and 'q' is appox. 2x faster.
-     *
-     * @param RSAKey $key
-     *
-     * @throws RuntimeException if the exponentiation cannot be achieved
-     */
-    public static function exponentiate(self $key, BigInteger $c): BigInteger
-    {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
-            throw new RuntimeException();
-        }
-        if ($key->isPublic() || null === $key->getCoefficient() || 0 === count($key->getPrimes()) || 0 === count($key->getExponents())) {
-            return $c->modPow($key->getExponent(), $key->getModulus());
-        }
-
-        $p = $key->getPrimes()[0];
-        $q = $key->getPrimes()[1];
-        $dP = $key->getExponents()[0];
-        $dQ = $key->getExponents()[1];
-        $qInv = $key->getCoefficient();
-
-        $m1 = $c->modPow($dP, $p);
-        $m2 = $c->modPow($dQ, $q);
-        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
-
-        return $m2->add($h->multiply($q));
-    }
-
-    private function populateBigIntegers(): void
+    private function populateBigIntegers()
     {
         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-        $this->modulus_length = mb_strlen($this->getModulus()->toBytes(), '8bit');
+        $this->modulus_length = \mb_strlen($this->getModulus()->toBytes(), '8bit');
         $this->public_exponent = $this->convertBase64StringToBigInteger($this->values['e']);
 
         if (!$this->isPublic()) {
             $this->private_exponent = $this->convertBase64StringToBigInteger($this->values['d']);
 
-            if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
+            if (\array_key_exists('p', $this->values) && \array_key_exists('q', $this->values)) {
                 $this->primes = [
                     $this->convertBase64StringToBigInteger($this->values['p']),
                     $this->convertBase64StringToBigInteger($this->values['q']),
                 ];
-                if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists('qi', $this->values)) {
+                if (\array_key_exists('dp', $this->values) && \array_key_exists('dq', $this->values) && \array_key_exists('qi', $this->values)) {
                     $this->exponents = [
                         $this->convertBase64StringToBigInteger($this->values['dp']),
                         $this->convertBase64StringToBigInteger($this->values['dq']),
@@ -253,7 +213,30 @@ class RSAKey
         return BigInteger::createFromBinaryString(Base64Url::decode($value));
     }
 
-    private function initPublicKey(): void
+    /**
+     * @throws \Exception
+     */
+    public function toPEM(): string
+    {
+        if (null === $this->sequence) {
+            $this->sequence = new Sequence();
+            if (\array_key_exists('d', $this->values)) {
+                $this->initPrivateKey();
+            } else {
+                $this->initPublicKey();
+            }
+        }
+        $result = '-----BEGIN '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
+        $result .= \chunk_split(\base64_encode($this->sequence->getBinary()), 64, PHP_EOL);
+        $result .= '-----END '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
+
+        return $result;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function initPublicKey()
     {
         $oid_sequence = new Sequence();
         $oid_sequence->addChild(new ObjectIdentifier('1.2.840.113549.1.1.1'));
@@ -264,11 +247,11 @@ class RSAKey
         $key_sequence = new Sequence();
         $key_sequence->addChild($n);
         $key_sequence->addChild($e);
-        $key_bit_string = new BitString(bin2hex($key_sequence->getBinary()));
+        $key_bit_string = new BitString(\bin2hex($key_sequence->getBinary()));
         $this->sequence->addChild($key_bit_string);
     }
 
-    private function initPrivateKey(): void
+    private function initPrivateKey()
     {
         $this->sequence->addChild(new Integer(0));
         $oid_sequence = new Sequence();
@@ -281,9 +264,9 @@ class RSAKey
         $d = new Integer($this->fromBase64ToInteger($this->values['d']));
         $p = new Integer($this->fromBase64ToInteger($this->values['p']));
         $q = new Integer($this->fromBase64ToInteger($this->values['q']));
-        $dp = array_key_exists('dp', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dp'])) : new Integer(0);
-        $dq = array_key_exists('dq', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dq'])) : new Integer(0);
-        $qi = array_key_exists('qi', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['qi'])) : new Integer(0);
+        $dp = \array_key_exists('dp', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dp'])) : new Integer(0);
+        $dq = \array_key_exists('dq', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dq'])) : new Integer(0);
+        $qi = \array_key_exists('qi', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['qi'])) : new Integer(0);
         $key_sequence = new Sequence();
         $key_sequence->addChild($v);
         $key_sequence->addChild($n);
@@ -294,7 +277,7 @@ class RSAKey
         $key_sequence->addChild($dp);
         $key_sequence->addChild($dq);
         $key_sequence->addChild($qi);
-        $key_octet_string = new OctetString(bin2hex($key_sequence->getBinary()));
+        $key_octet_string = new OctetString(\bin2hex($key_sequence->getBinary()));
         $this->sequence->addChild($key_octet_string);
     }
 
@@ -305,11 +288,35 @@ class RSAKey
      */
     private function fromBase64ToInteger($value)
     {
-        $unpacked = unpack('H*', Base64Url::decode($value));
-        if (!is_array($unpacked) || 0 === count($unpacked)) {
-            throw new InvalidArgumentException('Unable to get the private key');
+        return \gmp_strval(\gmp_init(\current(\unpack('H*', Base64Url::decode($value))), 16), 10);
+    }
+
+    /**
+     * Exponentiate with or without Chinese Remainder Theorem.
+     * Operation with primes 'p' and 'q' is appox. 2x faster.
+     *
+     * @param RSAKey $key
+     */
+    public static function exponentiate(self $key, BigInteger $c): BigInteger
+    {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+            throw new \RuntimeException();
+        }
+        if ($key->isPublic() || empty($key->getPrimes()) || empty($key->getExponents()) || null === $key->getCoefficient()) {
+            return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
-        return \Brick\Math\BigInteger::fromBase(current($unpacked), 16)->toBase(10);
+        $p = $key->getPrimes()[0];
+        $q = $key->getPrimes()[1];
+        $dP = $key->getExponents()[0];
+        $dQ = $key->getExponents()[1];
+        $qInv = $key->getCoefficient();
+
+        $m1 = $c->modPow($dP, $p);
+        $m2 = $c->modPow($dQ, $q);
+        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
+        $m = $m2->add($h->multiply($q));
+
+        return $m;
     }
 }

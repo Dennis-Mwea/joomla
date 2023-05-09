@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,24 +13,22 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
-use Brick\Math\BigInteger;
-
 /**
  * @internal
  */
 class ModularArithmetic
 {
-    public static function sub(BigInteger $minuend, BigInteger $subtrahend, BigInteger $modulus): BigInteger
+    public static function sub(\GMP $minuend, \GMP $subtrahend, \GMP $modulus): \GMP
     {
-        return $minuend->minus($subtrahend)->mod($modulus);
+        return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
     }
 
-    public static function mul(BigInteger $multiplier, BigInteger $muliplicand, BigInteger $modulus): BigInteger
+    public static function mul(\GMP $multiplier, \GMP $muliplicand, \GMP $modulus): \GMP
     {
-        return $multiplier->multipliedBy($muliplicand)->mod($modulus);
+        return Math::mod(Math::mul($multiplier, $muliplicand), $modulus);
     }
 
-    public static function div(BigInteger $dividend, BigInteger $divisor, BigInteger $modulus): BigInteger
+    public static function div(\GMP $dividend, \GMP $divisor, \GMP $modulus): \GMP
     {
         return self::mul($dividend, Math::inverseMod($divisor, $modulus), $modulus);
     }

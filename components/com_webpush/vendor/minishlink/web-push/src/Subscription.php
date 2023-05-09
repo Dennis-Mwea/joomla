@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Minishlink\WebPush;
 
-class Subscription implements SubscriptionInterface
+class Subscription
 {
     /** @var string */
     private $endpoint;
@@ -28,7 +28,12 @@ class Subscription implements SubscriptionInterface
     private $contentEncoding;
 
     /**
-     * @param string|null $contentEncoding (Optional) Must be "aesgcm"
+     * Subscription constructor.
+     *
+     * @param string $endpoint
+     * @param null|string $publicKey
+     * @param null|string $authToken
+     * @param string $contentEncoding (Optional) Must be "aesgcm"
      * @throws \ErrorException
      */
     public function __construct(
@@ -52,20 +57,13 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
+     * Subscription factory.
+     *
      * @param array $associativeArray (with keys endpoint, publicKey, authToken, contentEncoding)
+     * @return Subscription
      * @throws \ErrorException
      */
-    public static function create(array $associativeArray): self
-    {
-        if (array_key_exists('keys', $associativeArray) && is_array($associativeArray['keys'])) {
-            return new self(
-                $associativeArray['endpoint'],
-                $associativeArray['keys']['p256dh'] ?? null,
-                $associativeArray['keys']['auth'] ?? null,
-                $associativeArray['contentEncoding'] ?? "aesgcm"
-            );
-        }
-
+    public static function create(array $associativeArray): Subscription {
         if (array_key_exists('publicKey', $associativeArray) || array_key_exists('authToken', $associativeArray) || array_key_exists('contentEncoding', $associativeArray)) {
             return new self(
                 $associativeArray['endpoint'],
@@ -81,7 +79,7 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return string
      */
     public function getEndpoint(): string
     {
@@ -89,7 +87,7 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return null|string
      */
     public function getPublicKey(): ?string
     {
@@ -97,7 +95,7 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return null|string
      */
     public function getAuthToken(): ?string
     {
@@ -105,7 +103,7 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @return null|string
      */
     public function getContentEncoding(): ?string
     {

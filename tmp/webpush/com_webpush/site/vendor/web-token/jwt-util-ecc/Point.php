@@ -5,15 +5,13 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
 
 namespace Jose\Component\Core\Util\Ecc;
-
-use Brick\Math\BigInteger;
 
 /**
  * *********************************************************************
@@ -45,17 +43,17 @@ use Brick\Math\BigInteger;
 class Point
 {
     /**
-     * @var BigInteger
+     * @var \GMP
      */
     private $x;
 
     /**
-     * @var BigInteger
+     * @var \GMP
      */
     private $y;
 
     /**
-     * @var BigInteger
+     * @var \GMP
      */
     private $order;
 
@@ -64,7 +62,13 @@ class Point
      */
     private $infinity = false;
 
-    private function __construct(BigInteger $x, BigInteger $y, BigInteger $order, bool $infinity = false)
+    /**
+     * Initialize a new instance.
+     *
+     * @throws \RuntimeException when either the curve does not contain the given coordinates or
+     *                           when order is not null and P(x, y) * order is not equal to infinity
+     */
+    private function __construct(\GMP $x, \GMP $y, \GMP $order, bool $infinity = false)
     {
         $this->x = $x;
         $this->y = $y;
@@ -72,14 +76,20 @@ class Point
         $this->infinity = $infinity;
     }
 
-    public static function create(BigInteger $x, BigInteger $y, ?BigInteger $order = null): self
+    /**
+     * @return Point
+     */
+    public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
     {
-        return new self($x, $y, $order ?? BigInteger::zero());
+        return new self($x, $y, null === $order ? \gmp_init(0, 10) : $order);
     }
 
+    /**
+     * @return Point
+     */
     public static function infinity(): self
     {
-        $zero = BigInteger::zero();
+        $zero = \gmp_init(0, 10);
 
         return new self($zero, $zero, $zero, true);
     }
@@ -89,50 +99,54 @@ class Point
         return $this->infinity;
     }
 
-    public function getOrder(): BigInteger
+    public function getOrder(): \GMP
     {
         return $this->order;
     }
 
-    public function getX(): BigInteger
+    public function getX(): \GMP
     {
         return $this->x;
     }
 
-    public function getY(): BigInteger
+    public function getY(): \GMP
     {
         return $this->y;
     }
 
-    public static function cswap(self $a, self $b, int $cond): void
+    /**
+     * @param Point $a
+     * @param Point $b
+     */
+    public static function cswap(self $a, self $b, int $cond)
     {
-        self::cswapBigInteger($a->x, $b->x, $cond);
-        self::cswapBigInteger($a->y, $b->y, $cond);
-        self::cswapBigInteger($a->order, $b->order, $cond);
+        self::cswapGMP($a->x, $b->x, $cond);
+        self::cswapGMP($a->y, $b->y, $cond);
+        self::cswapGMP($a->order, $b->order, $cond);
         self::cswapBoolean($a->infinity, $b->infinity, $cond);
     }
 
-    private static function cswapBoolean(bool &$a, bool &$b, int $cond): void
+    private static function cswapBoolean(bool &$a, bool &$b, int $cond)
     {
-        $sa = BigInteger::of((int) $a);
-        $sb = BigInteger::of((int) $b);
+        $sa = \gmp_init((int) ($a), 10);
+        $sb = \gmp_init((int) ($b), 10);
 
-        self::cswapBigInteger($sa, $sb, $cond);
+        self::cswapGMP($sa, $sb, $cond);
 
-        $a = (bool) $sa->toBase(10);
-        $b = (bool) $sb->toBase(10);
+        $a = (bool) \gmp_strval($sa, 10);
+        $b = (bool) \gmp_strval($sb, 10);
     }
 
-    private static function cswapBigInteger(BigInteger &$sa, BigInteger &$sb, int $cond): void
+    private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond)
     {
-        $size = max(mb_strlen($sa->toBase(2), '8bit'), mb_strlen($sb->toBase(2), '8bit'));
-        $mask = (string) (1 - $cond);
-        $mask = str_pad('', $size, $mask, STR_PAD_LEFT);
-        $mask = BigInteger::fromBase($mask, 2);
-        $taA = $sa->and($mask);
-        $taB = $sb->and($mask);
-        $sa = $sa->xor($sb)->xor($taB);
-        $sb = $sa->xor($sb)->xor($taA);
-        $sa = $sa->xor($sb)->xor($taB);
+        $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));
+        $mask = (string) (1 - (int) ($cond));
+        $mask = \str_pad('', $size, $mask, STR_PAD_LEFT);
+        $mask = \gmp_init($mask, 2);
+        $taA = Math::bitwiseAnd($sa, $mask);
+        $taB = Math::bitwiseAnd($sb, $mask);
+        $sa = Math::bitwiseXor(Math::bitwiseXor($sa, $sb), $taB);
+        $sb = Math::bitwiseXor(Math::bitwiseXor($sa, $sb), $taA);
+        $sa = Math::bitwiseXor(Math::bitwiseXor($sa, $sb), $taB);
     }
 }

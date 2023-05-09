@@ -12,119 +12,120 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Standardized response from sending a message
  */
-class MessageSentReport implements \JsonSerializable
-{
-    /**
-     * @var boolean
-     */
-    protected $success;
+class MessageSentReport {
 
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
+	/**
+	 * @var boolean
+	 */
+	protected $success;
 
-    /**
-     * @var ResponseInterface | null
-     */
-    protected $response;
+	/**
+	 * @var RequestInterface
+	 */
+	protected $request;
 
-    /**
-     * @var string
-     */
-    protected $reason;
+	/**
+	 * @var ResponseInterface
+	 */
+	protected $response;
 
-    /**
-     * @param string $reason
-     */
-    public function __construct(RequestInterface $request, ?ResponseInterface $response = null, bool $success = true, $reason = 'OK')
-    {
-        $this->request  = $request;
-        $this->response = $response;
-        $this->success  = $success;
-        $this->reason   = $reason;
-    }
+	/**
+	 * @var string
+	 */
+	protected $reason;
 
-    public function isSuccess(): bool
-    {
-        return $this->success;
-    }
+	/**
+	 * @param RequestInterface  $request
+	 * @param ResponseInterface $response
+	 * @param bool              $success
+	 * @param string            $reason
+	 */
+	public function __construct(?RequestInterface $request = null, ?ResponseInterface $response = null, bool $success = true, $reason = 'OK') {
+		$this->success  = $success;
+		$this->request  = $request;
+		$this->response = $response;
+		$this->reason   = $reason;
+	}
 
-    public function setSuccess(bool $success): MessageSentReport
-    {
-        $this->success = $success;
-        return $this;
-    }
+	/**
+	 * @return bool
+	 */
+	public function isSuccess(): bool {
+		return $this->success;
+	}
 
-    public function getRequest(): RequestInterface
-    {
-        return $this->request;
-    }
+	/**
+	 * @param bool $success
+	 *
+	 * @return MessageSentReport
+	 */
+	public function setSuccess(bool $success): MessageSentReport {
+		$this->success = $success;
+		return $this;
+	}
 
-    public function setRequest(RequestInterface $request): MessageSentReport
-    {
-        $this->request = $request;
-        return $this;
-    }
+	/**
+	 * @return RequestInterface
+	 */
+	public function getRequest(): RequestInterface {
+		return $this->request;
+	}
 
-    public function getResponse(): ?ResponseInterface
-    {
-        return $this->response;
-    }
+	/**
+	 * @param RequestInterface $request
+	 *
+	 * @return MessageSentReport
+	 */
+	public function setRequest(RequestInterface $request): MessageSentReport {
+		$this->request = $request;
+		return $this;
+	}
 
-    public function setResponse(ResponseInterface $response): MessageSentReport
-    {
-        $this->response = $response;
-        return $this;
-    }
+	/**
+	 * @return ResponseInterface
+	 */
+	public function getResponse(): ResponseInterface {
+		return $this->response;
+	}
 
-    public function getEndpoint(): string
-    {
-        return $this->request->getUri()->__toString();
-    }
+	/**
+	 * @param ResponseInterface $response
+	 *
+	 * @return MessageSentReport
+	 */
+	public function setResponse(ResponseInterface $response): MessageSentReport {
+		$this->response = $response;
+		return $this;
+	}
 
-    public function isSubscriptionExpired(): bool
-    {
-        if (!$this->response) {
-            return false;
-        }
+	/**
+	 * @return string
+	 */
+	public function getEndpoint(): string {
+		return $this->request->getUri()->__toString();
+	}
 
-        return \in_array($this->response->getStatusCode(), [404, 410], true);
-    }
+	/**
+	 * @return bool
+	 */
+	public function isSubscriptionExpired(): bool {
+		return \in_array($this->response->getStatusCode(), [404, 410], true);
+	}
 
-    public function getReason(): string
-    {
-        return $this->reason;
-    }
+	/**
+	 * @return string
+	 */
+	public function getReason(): string {
+		return $this->reason;
+	}
 
-    public function setReason(string $reason): MessageSentReport
-    {
-        $this->reason = $reason;
-        return $this;
-    }
-
-    public function getRequestPayload(): string
-    {
-        return $this->request->getBody()->getContents();
-    }
-
-    public function getResponseContent(): ?string
-    {
-        if (!$this->response) {
-            return null;
-        }
-
-        return $this->response->getBody()->getContents();
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'success'  => $this->isSuccess(),
-            'expired'  => $this->isSubscriptionExpired(),
-            'reason'   => $this->reason,
-            'endpoint' => $this->getEndpoint(),
-            'payload'  => $this->request->getBody()->getContents(),
-        ];
-    }
+	/**
+	 * @param string $reason
+	 *
+	 * @return MessageSentReport
+	 */
+	public function setReason(string $reason): MessageSentReport {
+		$this->reason = $reason;
+		return $this;
+	}
 }

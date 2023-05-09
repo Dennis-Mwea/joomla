@@ -5,15 +5,13 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
 
 namespace Jose\Component\Core\Util\Ecc;
-
-use Brick\Math\BigInteger;
 
 /**
  * *********************************************************************
@@ -45,21 +43,24 @@ use Brick\Math\BigInteger;
 class PrivateKey
 {
     /**
-     * @var BigInteger
+     * @var \GMP
      */
     private $secret;
 
-    private function __construct(BigInteger $secret)
+    private function __construct(\GMP $secret)
     {
         $this->secret = $secret;
     }
 
-    public static function create(BigInteger $secret): self
+    /**
+     * @return PrivateKey
+     */
+    public static function create(\GMP $secret): self
     {
         return new self($secret);
     }
 
-    public function getSecret(): BigInteger
+    public function getSecret(): \GMP
     {
         return $this->secret;
     }

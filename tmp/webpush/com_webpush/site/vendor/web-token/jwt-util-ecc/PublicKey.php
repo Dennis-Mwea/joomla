@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -47,9 +47,20 @@ class PublicKey
      */
     private $point;
 
-    public function __construct(Point $point)
+    /**
+     * PublicKey constructor.
+     */
+    private function __construct(Point $point)
     {
         $this->point = $point;
+    }
+
+    /**
+     * @return PublicKey
+     */
+    public static function create(Point $point): self
+    {
+        return new self($point);
     }
 
     public function getPoint(): Point
