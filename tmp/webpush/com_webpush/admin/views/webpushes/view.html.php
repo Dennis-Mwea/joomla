@@ -26,7 +26,10 @@ class WebPushViewWebPushes extends JViewLegacy
 			return;
 		}
 
-		// Display the tool bar and number of found items
+		WebPushHelper::addSubMenu('webpushes');
+		$this->sidebar = JHtmlSidebar::render();
+
+		// Display the toolbar and number of found items
 		$this->addToolBar();
 
 		parent::display($tpl);

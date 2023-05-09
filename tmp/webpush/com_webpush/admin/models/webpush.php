@@ -4,12 +4,26 @@ defined('_JEXEC') or die('Restricted access');
 
 class WebPushModelWebPush extends JModelAdmin
 {
-	public function getTable($name = 'WebPush', $prefix = 'WebPushTable', $options = []): JTable|bool
+	/**
+	 * @param string $name
+	 * @param string $prefix
+	 * @param array $options
+	 *
+	 * @return bool|JTable
+	 * @throws Exception
+	 */
+	public function getTable($name = 'WebPush', $prefix = 'WebPushTable', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
 
-	public function getForm($data = [], $loadData = true): JForm|bool
+	/**
+	 * @param array $data
+	 * @param bool $loadData
+	 *
+	 * @return bool|JForm
+	 */
+	public function getForm($data = [], $loadData = true)
 	{
 		$form = $this->loadForm('com_webpush.webpush', 'webpush', [
 			'control' => 'jform',
@@ -28,7 +42,7 @@ class WebPushModelWebPush extends JModelAdmin
 	 * @return array|bool|JObject|mixed
 	 * @throws Exception
 	 */
-	protected function loadFormData(): mixed
+	protected function loadFormData()
 	{
 		$data = JFactory::getApplication()->getUserState('com_webpush.edit.webpush.data', []);
 
