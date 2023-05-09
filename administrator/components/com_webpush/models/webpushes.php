@@ -15,7 +15,10 @@ class WebPushModelWebPushes extends JModelList
 		parent::__construct($config, $factory);
 	}
 
-	protected function getListQuery(): JDatabaseQuery|string
+	/**
+	 * @return JDatabaseQuery|string
+	 */
+	protected function getListQuery()
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)

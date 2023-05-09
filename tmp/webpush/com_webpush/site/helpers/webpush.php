@@ -17,7 +17,7 @@ abstract class WebPushHelper
 		$webPush       = self::getWebPush();
 		foreach ($subscriptions as $subscription)
 		{
-			$webPush->queueNotification(self::createSubscription($subscription), json_encode([
+			$webPush->sendNotification(self::createSubscription($subscription), json_encode([
 				'body' => $message,
 				'title'   => $title,
 				'payload' => $payload,
@@ -61,7 +61,7 @@ abstract class WebPushHelper
 		]);
 	}
 
-	protected static function checkForResponse(Generator $reports): array
+	protected static function checkForResponse(iterable $reports): array
 	{
 		$messages = [];
 		foreach ($reports as $report)
