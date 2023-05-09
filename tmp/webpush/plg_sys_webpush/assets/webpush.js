@@ -4,24 +4,37 @@
     var EnablePushNotifications = {
         _pushButton: null,
 
+        _permissionsModal: null,
+
         init: function () {
             var _this = this
             window.addEventListener('load', function () {
-                _this._pushButton = document.querySelector('.notification-toggler');
-                if (_this._pushButton) {
-                    _this._pushButton.addEventListener('click', (event) => {
-                        _this._initSubscriptionToggler(event)
-                    })
-                }
+                // _this._pushButton = document.querySelector('.notification-toggler');
+                // if (_this._pushButton) {
+                //     _this._pushButton.addEventListener('click', _this._initSubscriptionToggler.bind(_this))
+                // }
+                console.log(_this._pushButton);
+                _this._permissionsModal = document.getElementById('permissionsModal');
+                if (_this._permissionsModal) {
+                    window.addEventListener('click', function (event) {
+                        if (event.target === _this._permissionsModal) {
+                            _this._togglePermissionRequestModal('none');
+                        }
+                    });
 
-                var testBtn = document.querySelector('.test-notification')
-                if (testBtn) {
-                    testBtn.addEventListener('click', _this._sendTestNotification.bind(_this));
+                    document.querySelector('#permissionsModal .close').addEventListener('click', function () {
+                        _this._togglePermissionRequestModal('none');
+                    });
+
+                    _this._pushButton = document.querySelector('#permissionsModal .allow')
+                    _this._pushButton.addEventListener('click', function () {
+                        _this._initSubscriptionToggler()
+                    })
                 }
 
                 // register the service worker
                 if (('serviceWorker' in navigator)) {
-                    navigator.serviceWorker.register('/webpush-sw.js', {scope: "./"}).then(function () {
+                    navigator.serviceWorker.register('/webpush-sw.js', {scope: './'}).then(function () {
                         console.log('[SW] Registered service worker')
                         _this._pushInitialiseState();
                         _this._initPostMessageListener();
@@ -36,11 +49,11 @@
             })
         },
 
-        _initSubscriptionToggler: function (event) {
+        _initSubscriptionToggler: function () {
             if (isPushEnabled) {
-                this._unsubscribe(event)
+                this._unsubscribe()
             } else {
-                this._subscribe(event)
+                this._subscribe()
             }
         },
 
@@ -55,7 +68,7 @@
                         break;
                     case 'disabled':
                         this._pushButton.removeAttribute('disabled');
-                        this._pushButton.innerHTML = "Notifications Push disabled";
+                        this._pushButton.innerHTML = "Allow";
                         this._pushButton.classList.remove("active")
                         isPushEnabled = false;
                         break;
@@ -145,6 +158,7 @@
                     // Set your UI to show they have subscribed for push messages
                     _this._changePushButtonState('enabled');
                 }).catch(function (err) {
+                    _this._togglePermissionRequestModal('block')
                     console.warn('[SW] Error during getSubscription()', err);
                 });
             })
@@ -158,7 +172,7 @@
             var token = subscription.getKey('auth');
             form.append('key', btoa(String.fromCharCode.apply(null, new Uint8Array(key))))
             form.append('token', btoa(String.fromCharCode.apply(null, new Uint8Array(token))))
-            fetch(`/index.php?option=com_webpush&task=subscribe`, {
+            fetch('/index.php?option=com_webpush&task=subscribe', {
                 method: 'POST',
                 body: form,
             }).then(function (resp) {
@@ -175,6 +189,9 @@
         _initPushNotifications: function () {
             var permission = Notification.permission;
             if (permission !== 'granted') {
+                // TODO: Show permissions modal here
+
+                // self._permissionsModal.style.display = 'block';
                 throw new Error('We weren\'t granted permissions.')
             }
             var _this = this
@@ -196,7 +213,7 @@
             })
         },
 
-        _urlBase64ToUint8Array(base64String) {
+        _urlBase64ToUint8Array: function (base64String) {
             var padding = '='.repeat((4 - base64String.length % 4) % 4);
             var base64 = (base64String + padding)
                 .replace(/-/g, '+')
@@ -211,10 +228,11 @@
             return outputArray;
         },
 
-        _subscribe: function (event) {
+        _subscribe: function () {
             this._changePushButtonState('computing')
             var _this = this
             window.Notification.requestPermission().then(function (permission) {
+                _this._togglePermissionRequestModal('none')
                 console.log('Notifications permission:', permission)
                 if (permission === 'granted') {
                     navigator.serviceWorker.ready.then(function (registration) {
@@ -242,11 +260,12 @@
                     _this._changePushButtonState('disabled');
                 }
             }).catch(function (error) {
+                _this._togglePermissionRequestModal('none')
                 console.log('Error requesting for notification permission:', error);
             });
         },
 
-        _unsubscribe: function (event) {
+        _unsubscribe: function () {
             this._changePushButtonState('computing');
             navigator.serviceWorker.ready.then(registration => {
                 // To unsubscribe from push messaging, you need get the
@@ -271,20 +290,11 @@
             });
         },
 
-        _sendTestNotification: function (event) {
-            var form = new FormData()
-            form.append('title', 'Test Notification')
-            form.append('message', 'This is a test notification to my devices')
-            fetch(`/index.php?option=com_webpush&task=sendMessages`, {
-                body: form,
-                method: 'POST',
-            }).then(function (resp) {
-                return resp.json();
-            }).then(function (resp) {
-                console.log(resp);
-            }).catch(function(error) {
-                console.error(error)
-            })
+        _togglePermissionRequestModal: function (display) {
+            var _this = this
+            setTimeout(function () {
+                _this._permissionsModal.style.display = display
+            }, 500)
         }
     }
 

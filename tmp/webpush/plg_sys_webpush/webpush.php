@@ -27,6 +27,7 @@ class plgSystemWebpush extends JPlugin
 				$document->addScriptDeclaration($jsVars);
 				$this->copyServiceWorker();
 				JHtml::script(JUri::root() . 'plugins/system/webpush/assets/webpush.js');
+				JHtml::stylesheet(JUri::root() . 'plugins/system/webpush/assets/webpush.css');
 			}
 		}
 	}
@@ -36,5 +37,37 @@ class plgSystemWebpush extends JPlugin
 		$base = JPATH_ROOT;
 		$serviceWorker = 'webpush-sw.js';
 		JFile::copy("$base/plugins/system/webpush/assets/$serviceWorker", "$base/$serviceWorker");
+	}
+
+	/**
+	 * @return void
+	 * @throws Exception
+	 */
+	public function onAfterRender()
+	{
+		$app = JFactory::getApplication();
+		if ($app->isClient('site'))
+		{
+			$body = $app->getBody();
+			$body .= '
+				<div id="permissionsModal" class="modal permissions-modal">
+					<div class="modal-content">
+						<div class="modal-header">
+							<span class="close">&times;</span>
+							<h2>Notification permissions request</h2>
+						</div>
+				
+						<div class="modal-body">
+							<p>Solutech would like to send you notifications. Click allow to accept.</p>
+						</div>
+				
+						<div class="modal-footer">
+							<button class="btn btn-primary allow">Allow</button>
+						</div>
+					</div>
+				</div>
+			';
+			$app->setBody($body);
+		}
 	}
 }
