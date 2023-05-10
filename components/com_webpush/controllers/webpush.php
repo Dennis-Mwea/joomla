@@ -32,7 +32,7 @@ class WebpushController extends JControllerLegacy
 		} else {
 			$subscription = $model->update($user, $endpoint, $token, $key);
 		}
-
+		
 		$response               = new stdClass();
 		$response->success      = true;
 		$response->subscription = $subscription;

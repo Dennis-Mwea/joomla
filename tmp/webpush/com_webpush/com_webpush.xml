@@ -42,6 +42,7 @@
 
     <languages folder="site/language">
         <language tag="en-GB">en-GB/en-GB.com_webpush.ini</language>
+        <language tag="en-GB">en-GB/en-GB.com_webpush.sys.ini</language>
     </languages>
 
     <media destination="com_webpush" folder="media">
@@ -83,6 +84,8 @@
         <languages folder="admin/language">
             <language tag="en-GB">en-GB/en-GB.com_webpush.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_webpush.sys.ini</language>
+            <language tag="de-DE">de-DE/de-DE.com_webpush.ini</language>
+            <language tag="de-DE">de-DE/de-DE.com_webpush.sys.ini</language>
         </languages>
     </administration>
 </extension>
