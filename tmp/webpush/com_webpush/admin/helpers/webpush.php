@@ -18,13 +18,25 @@ abstract class WebPushHelper
 			$submenu == 'subscribers'
 		);
 
+		JHtmlSidebar::addEntry(
+			'<i class="fa fa-eye fa-fw" aria-hidden="true"></i>' . JText::_('COM_WEBPUSH_SUBMENU_NOTIFICATION_TEMPLATES'),
+			'index.php?option=com_webpush&view=notification_templates',
+			$submenu == 'notification_templates'
+		);
+
 		// Set some global property
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-webpush {background-image: url(../media/com_webpush/images/notifications.png);}');
 		if ($submenu == 'subscribers')
 		{
-			$document->setTitle(JText::_('COM_WEBPUSH_ADMINISTRATOR_SUBSCRIBERS'));
+			$title = 'COM_WEBPUSH_ADMINISTRATOR_SUBSCRIBERS';
+		} else if ($submenu == 'notification_templates') {
+			$title = 'COM_WEBPUSH_ADMINISTRATOR_NOTIFICATION_TEMPLATES';
+		} else {
+			$title = 'COM_WEBPUSH_ADMINISTRATOR';
 		}
+
+		$document->setTitle(JText::_($title));
 	}
 
 	public static function getActions(?int $messageId = 0): JObject
