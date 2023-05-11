@@ -18,19 +18,6 @@ CREATE TABLE `#__webpush_configs`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-LOCK TABLES `#__webpush_configs` WRITE;
-/*!40000 ALTER TABLE `#__webpush_configs`
-    DISABLE KEYS */;
-
-INSERT INTO `#__webpush_configs` (`id`, `name`, `value`)
-VALUES (1, 'web_push_public_key',
-        'BO-M9OJnL6QSChU5UMvm-Zz5QvnCUIB0swJwUtmkZ5urdnaOItNkbo8-3q9uPzl5AIlhfV3dWGSQFmnClBLgxj0'),
-       (2, 'web_push_private_key', 'ofB3Dgr_HTU0u1FnNNtzuz6dFnG8pY0Kdgt0HWZWUYQ');
-
-/*!40000 ALTER TABLE `#__webpush_configs`
-    ENABLE KEYS */;
-UNLOCK TABLES;
-
 DROP TABLE IF EXISTS `#__webpush_subscribers`;
 
 CREATE TABLE `#__webpush_subscribers`
