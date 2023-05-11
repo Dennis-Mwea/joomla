@@ -19,23 +19,30 @@ class WebpushController extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		$user     = JFactory::getUser();
-		$model    = new SubscriptionModel;
-		$key      = $app->input->getString('key');
-		$token    = $app->input->getString('token');
-		$state    = $app->input->getString('state');
-		$endpoint = $app->input->getString('endpoint');
-
-		if ($state == 'delete') {
-			$subscription =  $model->delete($endpoint);
-		} else if ($state == 'create') {
-			$subscription = $model->create($user, $endpoint, $token, $key);
-		} else {
-			$subscription = $model->update($user, $endpoint, $token, $key);
-		}
-		
 		$response               = new stdClass();
 		$response->success      = true;
-		$response->subscription = $subscription;
+		if (!is_null($user) && $user->id != 0)
+		{
+			$model    = new SubscriptionModel;
+			$key      = $app->input->getString('key');
+			$token    = $app->input->getString('token');
+			$state    = $app->input->getString('state');
+			$endpoint = $app->input->getString('endpoint');
+
+			if ($state == 'delete')
+			{
+				$subscription = $model->delete($endpoint);
+			}
+			else if ($state == 'create')
+			{
+				$subscription = $model->create($user, $endpoint, $token, $key);
+			}
+			else
+			{
+				$subscription = $model->update($user, $endpoint, $token, $key);
+			}
+			$response->subscription = $subscription;
+		}
 
 		echo json_encode($response);
 		$app->close();
