@@ -49,24 +49,25 @@ class plgSystemWebpush extends JPlugin
 		if ($app->isClient('site'))
 		{
 			$body = $app->getBody();
-			$body .= '
-				<div id="permissionsModal" class="modal permissions-modal">
-					<div class="modal-content">
-						<div class="modal-header">
-							<span class="close">&times;</span>
+
+			$body .= "
+				<div id='permissionsModal' class='modal permissions-modal'>
+					<div class='modal-content'>
+						<div class='modal-header'>
+							<span class='close'>&times;</span>
 							<h2>Notification permissions request</h2>
 						</div>
 				
-						<div class="modal-body">
-							<p>Solutech would like to send you notifications. Click allow to accept.</p>
+						<div class='modal-body'>
+							<p>{$app->get('sitename')} would like to send you notifications. Click allow to accept.</p>
 						</div>
 				
-						<div class="modal-footer">
-							<button class="btn btn-primary allow">Allow</button>
+						<div class='modal-footer'>
+							<button class='btn btn-primary allow'>Allow</button>
 						</div>
 					</div>
 				</div>
-			';
+			";
 			$app->setBody($body);
 		}
 	}
