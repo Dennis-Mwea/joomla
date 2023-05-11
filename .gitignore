@@ -1,0 +1,4 @@
+.idea/
+administrator/logs/everything.php
+administrator/logs/deprecated.php
+administrator/logs/jcontroller.log.php
