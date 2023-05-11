@@ -37,7 +37,7 @@ abstract class WebPushHelper
 
 		return new WebPush([
 			'VAPID' => [
-				'subject'    => 'sanify@sanify24.de',
+				'subject'    => 'mailto:mweadennis2@gmail.com',
 				'publicKey'  => $config['web_push_public_key']->value,
 				'privateKey' => $config['web_push_private_key']->value,
 			],
