@@ -36,6 +36,25 @@ CREATE TABLE `#__webpush_subscribers`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
+DROP TABLE IF EXISTS `#__webpush_notification_templates`;
+
+CREATE TABLE `#__webpush_notification_templates`
+(
+    `id`          int unsigned                            NOT NULL AUTO_INCREMENT,
+    `state`       tinyint(1)                              NOT NULL,
+    `title`       varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `message`     text COLLATE utf8mb4_unicode_ci         NOT NULL,
+    `icon`        varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `url`         varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `created_by`  int                                     NOT NULL,
+    `modified_by` int                                     NOT NULL,
+    `created_on`  datetime                                NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `modified_on` datetime                                NOT NULL DEFAULT '0000-00-00 00:00:00',
+    PRIMARY KEY (`id`)
+) ENGINE = MyISAM
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
+
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
