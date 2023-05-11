@@ -8,6 +8,7 @@ SET NAMES utf8mb4;
 
 DROP TABLE IF EXISTS `#__webpush_configs`;
 DROP TABLE IF EXISTS `#__webpush_subscribers`;
+DROP TABLE IF EXISTS `#__webpush_notification_templates`;
 
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
