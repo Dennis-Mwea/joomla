@@ -293,7 +293,9 @@
         _togglePermissionRequestModal: function (display) {
             var _this = this
             setTimeout(function () {
-                _this._permissionsModal.style.display = display
+                if (_this._permissionsModal) {
+                    _this._permissionsModal.style.display = display
+                }
             }, 500)
         }
     }
