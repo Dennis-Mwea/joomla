@@ -32,4 +32,42 @@ class WebPushModel extends JModelLegacy
 
 		return $this->db->loadObjectList('name');
 	}
+
+	public function create(string $key, string $value): stdClass
+	{
+		if (!is_null($config = $this->find($key, $value)))
+		{
+			return $this->update($config, $value);
+		}
+
+		$config                    = new stdClass();
+		$config->name        = $key;
+		$config->value        = $value;
+
+		$this->db->insertObject('#__webpush_configs', $config, 'id');
+
+		return $this->find($key, $value);
+	}
+
+	private function find(string $key, string $value): ?stdClass
+	{
+		$query = $this->db->getQuery(true)
+			->select('*')
+			->from($this->db->quoteName('#__webpush_configs'))
+			->where($this->db->quoteName('name') . ' = ' . $this->db->quote($key))
+			->where($this->db->quoteName('value') . ' = ' . $this->db->quote($value));
+
+		return $this->db->setQuery($query)->loadObject();
+	}
+
+	public function update(stdClass $config, string $value): stdClass
+	{
+		$newConfig             = new stdClass();
+		$newConfig->value = $value;
+		$newConfig->id         = $config->id;
+
+		$this->db->updateObject('#__webpush_configs', $newConfig, 'id');
+
+		return $this->find($config->name, $value);
+	}
 }
