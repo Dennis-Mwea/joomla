@@ -2,14 +2,26 @@
 
 defined('_JEXEC') or die;
 
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/');
+JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', 'select');
+JHTML::_('behavior.modal');
+
+// Import CSS
 $document = JFactory::getDocument();
+$document->addStyleSheet(JUri::root() . 'administrator/components/com_webpush/assets/css/webpush.css');
+$document->addStyleSheet(JUri::root() . 'media/com_webpush/css/list.css');
 $document->addStyleDeclaration('.table-responsive {width: 100%; overflow: auto}');
 
 $listOrder = $this->escape($this->filter_order);
 $listDirn  = $this->escape($this->filter_order_Dir);
+
+$jInput = JFactory::getApplication()->input;
 ?>
 
-<form>
+<form action="<?php echo JRoute::_('index.php?option=com_webpush&view=subscribers'); ?>" method="post" name="adminForm"
+      id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -90,6 +102,27 @@ $listDirn  = $this->escape($this->filter_order_Dir);
 							</tr>
 						<?php endforeach; ?>
 					<?php endif; ?>
+
+					<div>
+						<?php
+						$key = $jInput->get('key', '', 'string');
+						if ($key)
+						{
+							$href = JRoute::_("index.php?option=com_webpush&tmpl=component&view=subscriber&key=$key");
+							echo "<a class='modal' id='newurl' rel='{handler: \"iframe\", size: {x: 550, y: 400}}' href='$href'></a>";
+							$js = "jQuery(document).ready(function () { 
+								var anchorObj = document.getElementById('newurl');
+							    if (anchorObj.click) {
+									anchorObj.click()
+								}
+								jQuery('#').click();
+							});";
+
+							$document->addScriptDeclaration($js);
+						}
+						?>
+					</div>
+
 					</tbody>
 				</table>
 			</div>

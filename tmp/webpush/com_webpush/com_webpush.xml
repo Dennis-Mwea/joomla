@@ -82,6 +82,8 @@
             <folder>controllers</folder>
             <!-- helpers files section -->
             <folder>helpers</folder>
+            <!-- assets files section -->
+            <folder>assets</folder>
         </files>
 
         <languages folder="admin/language">

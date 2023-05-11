@@ -51,10 +51,23 @@ class WebPushViewSubscribers extends JViewLegacy
 		JToolbarHelper::title($title, 'webpush');
 
 		$canDo = WebPushHelper::getActions();
+		if (isset($this->items[0])) {
+			JToolBarHelper::divider();
+			JToolBarHelper::custom('subscribers.push', 'jpush', 'jpush', 'COM_WEBPUSH_SEND_NOTIFICATION');
+		}
+
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::preferences('com_webpush');
 		}
 
+		// Set sidebar action - New in 3.0
 		JHtmlSidebar::setAction('index.php?option=com_webpush&view=subscribers');
+
+		$this->extra_sidebar = '';
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), "value", "text", $this->state->get('filter.state'), true)
+		);
 	}
 }
