@@ -9,11 +9,11 @@
         init: function () {
             var _this = this
             window.addEventListener('load', function () {
-                // _this._pushButton = document.querySelector('.notification-toggler');
-                // if (_this._pushButton) {
-                //     _this._pushButton.addEventListener('click', _this._initSubscriptionToggler.bind(_this))
-                // }
-                console.log(_this._pushButton);
+                console.log('Is firebase fcm enabled:', firebase.messaging.isSupported())
+                if (!firebase.messaging.isSupported()) {
+
+                }
+
                 _this._permissionsModal = document.getElementById('permissionsModal');
                 if (_this._permissionsModal) {
                     window.addEventListener('click', function (event) {

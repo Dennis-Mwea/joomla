@@ -148,8 +148,6 @@ class JoompushModelQuickpush extends JModelAdmin
 					$JoompushHelpersJoompush->saveNotification($subscribers_data, $gid, $ntype, $template, 1, 'com_joompush', 0, $track_code);
 					
 					$result = $JoompushHelpersJpush::jtopicPush($pushdata);
-
-					JLog::add("Results: $result");
 				}
 				
 				return 1;

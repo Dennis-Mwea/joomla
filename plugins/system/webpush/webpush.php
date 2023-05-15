@@ -26,6 +26,8 @@ class plgSystemWebpush extends JPlugin
 				$document = JFactory::getDocument();
 				$document->addScriptDeclaration($jsVars);
 				$this->copyServiceWorker();
+				JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
+				JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
 				JHtml::script(JUri::root() . 'plugins/system/webpush/assets/webpush.js');
 				JHtml::stylesheet(JUri::root() . 'plugins/system/webpush/assets/webpush.css');
 			}
