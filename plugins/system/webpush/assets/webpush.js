@@ -176,13 +176,17 @@
             // We need the service worker registration to check for a subscription
             var _this = this
             navigator.serviceWorker.ready.then(function (registration) {
-                if (firebase.messaging.isSupported() || !_this._isIOS()) {
-                    _this._messaging.getToken({vapidKey: vapidKey}).then(function (token) {
-                        _this._fcmSendSubscriptionToServer(token)
-                    }).catch(function (error) {
-                        console.error('[SW] Unable to subscribe to notifications.', error);
-                        _this._changePushButtonState('disabled');
-                    })
+                if (firebase.messaging.isSupported() && !_this._isIOS()) {
+                    if (Notification.permission === 'granted') {
+                        _this._messaging.getToken({vapidKey: vapidKey}).then(function (token) {
+                            _this._fcmSendSubscriptionToServer(token)
+                        }).catch(function (error) {
+                            console.error('[SW] Unable to subscribe to notifications.', error);
+                            _this._changePushButtonState('disabled');
+                        })
+                    } else {
+                        _this._togglePermissionRequestModal('block')
+                    }
                 } else {
                     // Do we already have a push message subscription?
                     registration.pushManager.getSubscription().then(function (subscription) {
