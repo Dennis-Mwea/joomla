@@ -54,6 +54,9 @@ class WebPushViewSubscribers extends JViewLegacy
 		if (isset($this->items[0])) {
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('subscribers.push', 'jpush', 'jpush', 'COM_WEBPUSH_SEND_NOTIFICATION');
+
+			// If this component does not use state then show a direct delete button as we can not trash
+			JToolBarHelper::deleteList('', 'subscribers.delete');
 		}
 
 		if ($canDo->get('core.admin')) {
