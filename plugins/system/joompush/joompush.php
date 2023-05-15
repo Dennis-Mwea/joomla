@@ -102,14 +102,12 @@ class PlgSystemJoompush extends JPlugin
 
 				if (isset($configs['api_key'], $configs['server_key'], $configs['project_id'], $configs['sender_id'], $configs['app_id']))
 				{
-					$global_vars = '';
-					$global_vars .= 'var apiKey = "' . $configs['api_key']->value . '"; ';
-					$global_vars .= 'var serverKey = "' . $configs['server_key']->value . '"; ';
+					$global_vars = 'var serverKey = "' . $configs['server_key']->value . '"; ';
 					$global_vars .= 'var project_id = "' . $configs['project_id']->value . '"; ';
 					$global_vars .= 'var messagingSenderId = "' . $configs['sender_id']->value . '"; ';
 					$global_vars .= 'var appId = "' . $configs['app_id']->value . '"; ';
 					$global_vars .= 'var vapidKey = "' . $configs['vapidKey']->value . '"; ';
-					$global_vars .= 'var webPushPublicKey = "' . $configs['web_push_public_key']->value . '"; ';
+					$global_vars .= 'var apiKey = "' . $configs['api_key']->value . '"; ';
 					$global_vars .= 'var fbsw_url = "' . JURI::root() . 'firebase-messaging-sw.js' . '"; ';
 					$global_vars .= 'var sw_url = "' . JURI::root() . 'joompush-sw.js' . '"; ';
 					$global_vars .= 'var baseurl = "' . JURI::root() . '"; ';

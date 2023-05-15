@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+    <name>com_joompush</name>
+    <creationDate>2017-01-01</creationDate>
+    <copyright>Copyright (c) 2017 Weppsol Technologies. All rights reserved.</copyright>
+    <license>GNU GENERAL PUBLIC LICENSE V2 OR LATER.</license>
+    <author>Weppsol</author>
+    <authorEmail>contact@weppsol.com</authorEmail>
+    <authorUrl>https://weppsol.com</authorUrl>
+    <version>1.3.8</version>
+    <description>Web Push Notifications for Joomla!</description>
+    
+    
+    
+    <install> <!-- Runs on install -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <update> <!-- Runs on update -->
+		<schemas> 
+			<schemapath type="mysql">sql/updates</schemapath> 
+		</schemas> 
+	</update>
+    
+    <uninstall> <!-- Runs on uninstall -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>joompush.php</filename>
+        <filename>controller.php</filename>
+        <filename>router.php</filename>
+        <folder>views</folder>
+        <folder>models</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+    </files>
+    <media destination="com_joompush" folder="media">
+        <folder>js</folder>
+        <folder>css</folder>
+        <folder>images</folder>
+    </media>
+    <languages folder="languages/site">
+        
+			<language tag="en-GB">en-GB/en-GB.com_joompush.ini</language>
+    </languages>
+    <administration>
+        <menu img="media/com_joompush/images/s_com_joompush.png" >COM_JOOMPUSH</menu>
+        <submenu>
+			<menu link="option=com_joompush&amp;view=dashboard" view="dashboard" img="media/com_joompush/images/s_dashboard.png" alt="Joompush/Dashboard">COM_JOOMPUSH_TITLE_DASHBOARD</menu>
+			<menu link="option=com_joompush&amp;view=subscribers" view="subscribers" img="media/com_joompush/images/s_subscribers.png" alt="Joompush/Subscribers">COM_JOOMPUSH_TITLE_SUBSCRIBERS</menu>
+			<menu link="option=com_joompush&amp;view=subscribergroups" view="subscribergroups" img="media/com_joompush/images/s_subscribers.png" alt="Joompush/Subscribergroups">COM_JOOMPUSH_TITLE_SUBSCRIBERGROUPS</menu>
+			<menu link="option=com_joompush&amp;view=notificationtemplates" view="notificationtemplates" img="media/com_joompush/images/s_notificationtemplates.png" alt="Joompush/Notificationtemplates">COM_JOOMPUSH_TITLE_NOTIFICATIONTEMPLATES</menu>
+			<menu link="option=com_joompush&amp;view=configs" view="configs" img="media/com_joompush/images/s_configs.png" alt="Joompush/Configs">COM_JOOMPUSH_TITLE_CONFIGS</menu>
+        </submenu>
+        <files folder="administrator">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+            <filename>joompush.php</filename>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+        </files>
+        <languages folder="languages/administrator">
+            
+			<language tag="en-GB">en-GB/en-GB.com_joompush.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_joompush.sys.ini</language>
+        </languages>
+    </administration>
+    <config>
+        <fields name="params">
+            <fieldset name="component">
+                <field name="save_history" default="0" />
+            </fieldset>
+        </fields>
+    </config>
+
+</extension>

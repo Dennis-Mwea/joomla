@@ -1,0 +1,46 @@
+.icon-48-subscribers {
+      background-image: url(../images/l_subscribers.png);
+      padding-left:60px!important;
+}
+
+.icon-48-subscriber {
+      background-image: url(../images/l_subscribers.png);
+      padding-left:60px!important;
+}
+
+.color-box-subscribers { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+
+.icon-48-notificationtemplates {
+      background-image: url(../images/l_notificationtemplates.png);
+      padding-left:60px!important;
+}
+
+.icon-48-notificationtemplate {
+      background-image: url(../images/l_notificationtemplates.png);
+      padding-left:60px!important;
+}
+
+.color-box-notificationtemplates { 
+      float: left;      width: 15px;      height: 15px;      margin-right: 5px;      border: 1px solid rgba(0, 0, 0, .2);}
+
+.other-filters{
+    padding: 0 14px;
+}
+
+.smlcol
+{
+width : 5%;
+text-align : center !important;
+}
+.jptitle_group {
+    background-color: #004b8e;
+    border-color: #004b8e;
+    color: white;
+    line-height: 36px !important;
+}
+
+.clearfix {
+  overflow: auto;
+}

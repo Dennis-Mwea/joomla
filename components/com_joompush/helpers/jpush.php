@@ -195,7 +195,7 @@ class JoompushHelpersJpush
 		$JoompushHelpersConfig = new JoompushHelpersConfig;
 		$configs = $JoompushHelpersConfig->getConfig();
 		
-		$api_key = $configs['server_key']->params; 
+		$api_key = $configs['server_key']->value;
 		
 		$headers = array
 		(

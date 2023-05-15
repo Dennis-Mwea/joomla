@@ -9,67 +9,69 @@ jQuery(document).ready(function () {
         databaseURL: `https://${project_id}.firebaseio.com`,
     };
 
+    if (!firebase.messaging.isSupported()) {
+        console.warn('Firebase is not supported on your browser.');
+        return;
+    }
     firebase.initializeApp(config);
 
     // Retrieve Firebase Messaging object.
     const messaging = firebase.messaging();
 
     if (getCookie('jpManual') == 0) {
-        // jpInit();
+        jpInit();
     }
 
     function jpInit() {
         if (getCookie('jpsent') == 0) {
             // On load register service worker
             if ('serviceWorker' in navigator) {
-                // window.addEventListener('load', () => {
-                navigator.serviceWorker.register(sw_url).then((registration) => {
-                    // Successfully registers service worker
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    messaging.useServiceWorker(registration);
-                }).then(() => {
-                    if (jpgdpr == 1 && getCookie('jpManual') == 0) {
-                        jQuery('#jp-overlay-backdrop').show();
-                    }
-                    // Requests user browser permission
-                    return messaging.requestPermission();
-                }).then(() => {
-                    // Gets token
-                    return messaging.getToken({vapidKey: vapidKey});
-                }).then((token) => {
-                    console.log(token)
-                    if (jpgdpr == 1 && getCookie('jpManual') == 0) {
-                        jQuery('#jp-overlay-backdrop').hide();
-                    }
-                    // Simple ajax call to send user token to server for saving
-                    let storeurl = baseurl + 'index.php?option=com_joompush&task=mynotifications.setSubscriber';
-                    console.log(storeurl + token);
-                    jQuery.ajax({
-                        type: 'post',
-                        url: storeurl,
-                        data: {key: token, IsClient: isClient, Userid: userid},
-                        success: (data) => {
-                            console.log('Success ', data);
-                            document.cookie = "jpsent = 1;"
-                            if (jpgdpr_unsub == 1) {
-                                if (getCookie('jpManual') == 1) {
-                                    location.reload();
-                                } else {
-                                    document.cookie = "jpManual = 1;"
-                                }
-                            }
-                        },
-                        error: (err) => {
-                            console.log('Error ', err);
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register(sw_url).then((registration) => {
+                        // Successfully registers service worker
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        messaging.useServiceWorker(registration);
+                    }).then(() => {
+                        if (jpgdpr == 1 && getCookie('jpManual') == 0) {
+                            jQuery('#jp-overlay-backdrop').show();
                         }
-                    })
-                }).catch((err) => {
-                    if (jpgdpr == 1) {
-                        jQuery('#jp-overlay-backdrop').hide();
-                    }
-                    console.log('ServiceWorker registration failed: ', err);
+                        // Requests user browser permission
+                        return messaging.requestPermission();
+                    }).then(() => {
+                        // Gets token
+                        return messaging.getToken({vapidKey: vapidKey});
+                    }).then((token) => {
+                        if (jpgdpr == 1 && getCookie('jpManual') == 0) {
+                            jQuery('#jp-overlay-backdrop').hide();
+                        }
+                        // Simple ajax call to send user token to server for saving
+                        let storeurl = baseurl + 'index.php?option=com_joompush&task=mynotifications.setSubscriber';
+                        jQuery.ajax({
+                            type: 'post',
+                            url: storeurl,
+                            data: {key: token, IsClient: isClient, Userid: userid},
+                            success: (data) => {
+                                console.log('Success ', data);
+                                document.cookie = "jpsent = 1;"
+                                if (jpgdpr_unsub == 1) {
+                                    if (getCookie('jpManual') == 1) {
+                                        location.reload();
+                                    } else {
+                                        document.cookie = "jpManual = 1;"
+                                    }
+                                }
+                            },
+                            error: (err) => {
+                                console.log('Error ', err);
+                            }
+                        })
+                    }).catch((err) => {
+                        if (jpgdpr == 1) {
+                            jQuery('#jp-overlay-backdrop').hide();
+                        }
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
                 });
-                //});
             }
         }
     }

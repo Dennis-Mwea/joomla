@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset label="COM_JOOMPUSH" name="joompush">
+		<field
+			name="section"
+			type="radio"
+			label="COM_JOOMPUSH_SECTION_LABEL"
+			description="COM_JOOMPUSH_SECTION_LABEL_DESC" 
+			default="3"
+			class="btn-group"
+			>
+			<option value="1">COM_JOOMPUSH_SECTION_SITE</option>
+			<option value="2">COM_JOOMPUSH_SECTION_ADMIN</option>
+			<option value="3">COM_JOOMPUSH_SECTION_BOTH</option>
+		</field>
+		<field name="allow_guest" type="radio" default="1" label="COM_JOOMPUSH_FORM_LBL_ALLOW_GUEST" class="btn-group btn-group-yesno" description="COM_JOOMPUSH_FORM_DESC_ALLOW_GUEST" hint="COM_JOOMPUSH_FORM_LBL_ALLOW_GUEST">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</field>
+		<field name="allow_notification" type="radio" default="all" label="COM_JOOMPUSH_FORM_LBL_ALLOW_NOTIFCATION" class="btn-group" description="COM_JOOMPUSH_FORM_DESC_ALLOW_NOTIFICATION" hint="COM_JOOMPUSH_FORM_LBL_ALLOW_GUEST" showon="section:1[OR]section:3">
+		  <option value="all">On All Menu Items</option>
+		  <option value="selected">Selected Menu Items</option>
+		</field>
+		
+		<field name="jpactivemenu" type="menuitem" multiple="multiple" label="COM_JOOMPUSH_FORM_LBL_JPACTIVE_MENU_ITEM" description="COM_JOOMPUSH_FORM_DESC_JPACTIVE_MENU_ITEM" hide_none="1" default="" showon="allow_notification:selected"/>
+		
+		<field name="notificationOnSubscribe" type="radio" default="0" label="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_SUBSCRIBE" class="btn-group btn-group-yesno" description="COM_JOOMPUSH_FORM_DESC_NOTIFICATION_ON_SUBSCRIBE" hint="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_SUBSCRIBE">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</field>
+		
+		<field
+			name="welcomeNotificationTitle"
+			type="text"
+			label="COM_JOOMPUSH_FORM_LBL_WELCOME_NOTIFICATION_TITLE"
+			description="COM_JOOMPUSH_FORM_DESC_WELCOME_NOTIFICATION_TITLE"
+			default="Thank You"
+			showon="notificationOnSubscribe:1"
+		/>
+		<field
+			name="welcomeNotificationMessage"
+			type="textarea"
+			label="COM_JOOMPUSH_FORM_LBL_WELCOME_NOTIFICATION_MESSAGE"
+			description="COM_JOOMPUSH_FORM_DESC_WELCOME_NOTIFICATION_MESSAGE"
+			default="Thank you for subscribing to Web Push Notification"
+			showon="notificationOnSubscribe:1"
+		/>
+		
+		<field name="welcomeNotificationIcon" type="media" label="COM_JOOMPUSH_FORM_LBL_WELCOME_NOTIFICATION_ICON" description="COM_JOOMPUSH_FORM_DESC_WELCOME_NOTIFICATION_ICON" hide_none="1" default="" showon="notificationOnSubscribe:1"/>
+		
+    </fieldset>
+
+    <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+        <field name="rules" type="rules" component="com_joompush" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
+	</fieldset>
+	
+	<fieldset label="COM_GDPR" name="GDPR">
+		
+	
+		<field name="righttoinformed" type="radio" default="0" label="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR" class="btn-group btn-group-yesno" description="COM_JOOMPUSH_FORM_DESC_NOTIFICATION_ON_SUBSCRIBE" hint="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</field>
+
+		<field
+			name="RightToInformedMessage"
+			type="textarea"
+			label="COM_JOOMPUSH_FORM_LBL_WELCOME_NOTIFICATION_GDPR_MESSAGE"
+			description="COM_JOOMPUSH_FORM_DESC_WELCOME_NOTIFICATION_MESSAGE"
+			default="Click on Allow Button and Subscribe to the Push Notification"
+			showon="righttoinformed:1"></field>
+			
+			<field name="legalconsent" type="radio" default="0" label="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR_LEGAL_CONSENT" class="btn-group btn-group-yesno" description="COM_JOOMPUSH_FORM_DESC_NOTIFICATION_ON_SUBSCRIBE" hint="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR_LEGAL_CONSENT">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</field>
+		
+		<field
+			name="legal_consent"
+			type="textarea"
+			label="COM_JOOMPUSH_FORM_LBL_WELCOME_NOTIFICATION_GDPR_LEGAL_CONSENT_MESSAGE"
+			description="COM_JOOMPUSH_FORM_DESC_WELCOME_NOTIFICATION_MESSAGE"
+			default="'yourdomain' Would Like To Send You Web Push Messages Via Your Browser.By accepting Push Notifications,you agree that to receive push Notifications "
+			showon="legalconsent:1"></field>
+		
+		
+		<field name="unsubscriber" type="radio" default="0" label="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR_ALLOW_UNSBSCRIBER" class="btn-group btn-group-yesno" description="COM_JOOMPUSH_FORM_DESC_NOTIFICATION_ON_SUBSCRIBE" hint="COM_JOOMPUSH_FORM_LBL_NOTIFICATION_ON_GDPR_ALLOW_UNSBSCRIBER">
+		  <option value="1">Yes</option>
+		  <option value="0">No</option>
+		</field>
+		<field
+			name="unsubscriber_popup_message"
+			type="textarea"
+			label="COM_JOOMPUSH_FORM_LBL_GDPR_UNSUBSCRIBER_POPUP_MESSAGE"
+			description="COM_JOOMPUSH_FORM_DESC_GDPR_UNSUBSCRIBER_POPUP_MESSAGE"
+			default="This is customizable request for notification subscription."
+			showon="unsubscriber:1"></field>
+		<field
+			name="unsubscriber_message"
+			type="textarea"
+			label="COM_JOOMPUSH_FORM_LBL_GDPR_UNSUBSCRIBER_MESSAGE"
+			description="COM_JOOMPUSH_FORM_DESC_UNSUBSCRIBER_MESSAGE"
+			default="This is customizable request for notification subscription."
+			showon="unsubscriber:1"></field>
+
+    </fieldset>
+	
+</config>
