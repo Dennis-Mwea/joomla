@@ -176,7 +176,7 @@
             // We need the service worker registration to check for a subscription
             var _this = this
             navigator.serviceWorker.ready.then(function (registration) {
-                if (firebase.messaging.isSupported() && !_this._isIOS()) {
+                if (!_this._isIOS()) {
                     if (Notification.permission === 'granted') {
                         _this._messaging.getToken({vapidKey: vapidKey}).then(function (token) {
                             _this._fcmSendSubscriptionToServer(token)
