@@ -180,7 +180,9 @@ class PlgSystemJoompush extends JPlugin
 
 						JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 						JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
-						JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
+//						JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
+						JHtml::script(Juri::root() . 'plugins/system/webpush/assets/webpush.js');
+
 
 						$manifest = JPATH_SITE . '/plugins/system/joompush/asset/manifest.json';
 						if (JFile::exists($manifest))
@@ -198,7 +200,8 @@ class PlgSystemJoompush extends JPlugin
 
 							JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js');
 							JHtml::script('https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js');
-							JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
+//							JHtml::script(Juri::root() . 'plugins/system/joompush/asset/js/joompush.js');
+							JHtml::script(Juri::root() . 'plugins/system/webpush/assets/webpush.js');
 
 							$manifest = JPATH_SITE . '/plugins/system/joompush/asset/manifest.json';
 							if (JFile::exists($manifest))

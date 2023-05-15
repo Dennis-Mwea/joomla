@@ -3,17 +3,12 @@
 
     var EnablePushNotifications = {
         _pushButton: null,
-
         _permissionsModal: null,
+        _messaging: null,
 
         init: function () {
             var _this = this
             window.addEventListener('load', function () {
-                console.log('Is firebase fcm enabled:', firebase.messaging.isSupported())
-                if (!firebase.messaging.isSupported()) {
-
-                }
-
                 _this._permissionsModal = document.getElementById('permissionsModal');
                 if (_this._permissionsModal) {
                     window.addEventListener('click', function (event) {
@@ -32,21 +27,39 @@
                     })
                 }
 
-                // register the service worker
-                if (('serviceWorker' in navigator)) {
-                    navigator.serviceWorker.register('/webpush-sw.js', {scope: './'}).then(function () {
-                        console.log('[SW] Registered service worker')
-                        _this._pushInitialiseState();
-                        _this._initPostMessageListener();
-                    }, function (e) {
-                        console.error('[SW] Oups...', e);
+                if (_this._getCookie('jpsent') == 0) {
+                    // register the service worker
+                    if (('serviceWorker' in navigator)) {
+                        navigator.serviceWorker.register('/webpush-sw.js', {scope: './'}).then(function (registration) {
+                            console.log('[SW] Registered service worker')
+                            _this._pushInitialiseState();
+                            _this._initPostMessageListener();
+                            _this._initFirebaseMessaging(registration);
+                        }, function (e) {
+                            console.error('[SW] Oups...', e);
+                            _this._changePushButtonState('incompatible');
+                        })
+                    } else {
+                        console.warn('[SW] Service workers are not yet supported by _this browser.');
                         _this._changePushButtonState('incompatible');
-                    })
-                } else {
-                    console.warn('[SW] Service workers are not yet supported by _this browser.');
-                    _this._changePushButtonState('incompatible');
+                    }
                 }
             })
+        },
+
+        _getCookie: function (cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         },
 
         _initSubscriptionToggler: function () {
@@ -55,6 +68,28 @@
             } else {
                 this._subscribe()
             }
+        },
+
+        _initFirebaseMessaging: function (registration) {
+            firebase.initializeApp({
+                appId: appId,
+                apiKey: apiKey,
+                projectId: project_id,
+                messagingSenderId: messagingSenderId,
+                authDomain: `${project_id}.firebaseapp.com`,
+                storageBucket: `${project_id}.appspot.com`,
+                databaseURL: `https://${project_id}.firebaseio.com`,
+            });
+            if (!firebase.messaging.isSupported()) {
+                return;
+            }
+
+            this._messaging = firebase.messaging();
+            this._messaging.useServiceWorker(registration)
+
+            this._messaging.onMessage(function (payload) {
+                console.log('Message received. ', payload);
+            })
         },
 
         _changePushButtonState: function (state) {
@@ -141,26 +176,35 @@
             // We need the service worker registration to check for a subscription
             var _this = this
             navigator.serviceWorker.ready.then(function (registration) {
-                // Do we already have a push message subscription?
-                registration.pushManager.getSubscription().then(function (subscription) {
-                    // Enable any UI which subscribes / unsubscribes from
-                    // push messages.
-                    _this._changePushButtonState('disabled');
+                if (firebase.messaging.isSupported() || !_this._isIOS()) {
+                    _this._messaging.getToken({vapidKey: vapidKey}).then(function (token) {
+                        _this._fcmSendSubscriptionToServer(token)
+                    }).catch(function (error) {
+                        console.error('[SW] Unable to subscribe to notifications.', error);
+                        _this._changePushButtonState('disabled');
+                    })
+                } else {
+                    // Do we already have a push message subscription?
+                    registration.pushManager.getSubscription().then(function (subscription) {
+                        // Enable any UI which subscribes / unsubscribes from
+                        // push messages.
+                        _this._changePushButtonState('disabled');
 
-                    if (!subscription) {
-                        _this._initPushNotifications();
-                        return;
-                    }
+                        if (!subscription) {
+                            _this._initPushNotifications();
+                            return;
+                        }
 
-                    // Keep your server in sync with the latest endpoint
-                    _this._pushSendSubscriptionToServer(subscription, 'update');
+                        // Keep your server in sync with the latest endpoint
+                        _this._pushSendSubscriptionToServer(subscription, 'update');
 
-                    // Set your UI to show they have subscribed for push messages
-                    _this._changePushButtonState('enabled');
-                }).catch(function (err) {
-                    _this._togglePermissionRequestModal('block')
-                    console.warn('[SW] Error during getSubscription()', err);
-                });
+                        // Set your UI to show they have subscribed for push messages
+                        _this._changePushButtonState('enabled');
+                    }).catch(function (err) {
+                        _this._togglePermissionRequestModal('block')
+                        console.warn('[SW] Error during getSubscription()', err);
+                    });
+                }
             })
         },
 
@@ -181,6 +225,30 @@
                 console.log(resp);
             }).catch(function (error) {
                 console.error(error);
+            })
+
+            return true
+        },
+
+        _fcmSendSubscriptionToServer: function (token) {
+            jQuery.ajax({
+                type: 'post',
+                url: `${baseurl}index.php?option=com_joompush&task=mynotifications.setSubscriber`,
+                data: {key: token, IsClient: isClient, Userid: userid},
+                success: (data) => {
+                    console.log('Success ', data);
+                    document.cookie = "jpsent = 1;"
+                    if (jpgdpr_unsub == 1) {
+                        if (getCookie('jpManual') == 1) {
+                            location.reload();
+                        } else {
+                            document.cookie = "jpManual = 1;"
+                        }
+                    }
+                },
+                error: (err) => {
+                    console.log('Error ', err);
+                }
             })
 
             return true
@@ -243,8 +311,18 @@
                             // The subscription was successful
                             _this._changePushButtonState('enabled');
 
-                            // on a la subscription, il faut l'enregistrer en BDD
-                            return _this._pushSendSubscriptionToServer(subscription, 'create');
+                            if (firebase.messaging.isSupported() || !_this._isIOS()) {
+                                _this._messaging.getToken({vapidKey: vapidKey}).then(function (token) {
+                                    _this._fcmSendSubscriptionToServer(token)
+                                }).catch(function (error) {
+                                    console.error('[SW] Unable to subscribe to notifications.', e);
+                                    _this._changePushButtonState('disabled');
+                                })
+                            } else {
+                                // on a la subscription, il faut l'enregistrer en BDD
+                                document.cookie = "jpsent = 1;"
+                                return _this._pushSendSubscriptionToServer(subscription, 'create');
+                            }
                         }).catch(function () {
                             if (Notification.permission === 'denied') {
                                 console.warn('[SW] Notifications are not allowed by the user.');
@@ -297,6 +375,19 @@
                     _this._permissionsModal.style.display = display
                 }
             }, 500)
+        },
+
+        _isIOS: function () {
+            return [
+                    'iPad Simulator',
+                    'iPhone Simulator',
+                    'iPod Simulator',
+                    'iPad',
+                    'iPhone',
+                    'iPod'
+                ].includes(navigator.platform)
+                // iPad on iOS 13 detection
+                || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
         }
     }
 

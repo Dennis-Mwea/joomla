@@ -81,7 +81,18 @@
 
             if (event.data) {
                 console.log('Notification received', event.data)
-                event.waitUntil(this.sendNotification(event.data.json()));
+                var data= event.data.json()
+                if (!data.hasOwnProperty('notification')) {
+                    event.waitUntil(this.sendNotification(data));
+                } else {
+                    var notification = data.notification
+                    event.waitUntil(self.registration.showNotification(notification.title, {
+                        body: notification.body,
+                        icon: notification.icon,
+                        tag: notification.title,
+                        data: {url: {clickurl: notification.click_action}}
+                    }))
+                }
             }
         },
 
